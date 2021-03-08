@@ -18,14 +18,14 @@ public class MemberDao {
 	}
 	
 	public Member selectMemberById(String userId) {
-		return session.selectOne("MEMBER.selectMemberById",userId);
+		return session.selectOne("mapper.member.selectMemberById",userId);
 	}
 	
 	public void insertMember(Map<String,String> member) {
-		session.insert("MEMBER.insertMember",member);
+		session.insert("mapper.member.insertMember",member);
 	}
 	
 	public void updateMember(Member member) {
-		session.update("MEMBER.updateMember",member);
+		session.update("mapper.member.updateMember",member);
 	}
 }

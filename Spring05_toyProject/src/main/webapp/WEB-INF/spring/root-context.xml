@@ -10,7 +10,7 @@
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> 
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
 		<property name="username" value="bm"/>
-		<property name="password" value="USER11"/>
+		<property name="password" value="1234"/>
 	</bean>
 	
 	<!-- sqlSessionFactoryBean을 등록  -->
@@ -29,7 +29,7 @@
 		<property name="host" value="smtp.naver.com"/>
 		<property name="port" value="465"/>
 		<property name="username" value="killsky2014@naver.com"/>
-		<property name="password" value="hado4052491"/>
+		<property name="password" value="1256812gk!A!"/>
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.transport.protocol">smtp</prop>

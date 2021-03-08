@@ -36,11 +36,12 @@ public class MemberService {
 	
 	public Member authenticateUser(Member member) {
 		Member info = memberDao.selectMemberById(member.getUserId());
-		if(passwordEncoder.matches(member.getPassword(), info.getPassword())) {
-			return info;
+		
+		if(!passwordEncoder.matches(member.getPassword(), info.getPassword())) {
+			return null;
 		}
 		
-		return null;
+		return info;
 	}
 	
 	public Member selectMemberById(String userId){	

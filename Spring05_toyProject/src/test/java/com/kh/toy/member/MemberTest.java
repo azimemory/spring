@@ -51,7 +51,7 @@ public class MemberTest {
 		 this.mockMvc.perform(
 				 post("/member/loginimpl")
 				 .contentType(MediaType.APPLICATION_JSON)
-				 .content("{\"userId\":\"test\",\"password\":\"1234\"}"))
+				 .content("{\"userId\":\"test\",\"password\":\"123qwe!@#\"}"))
 				 .andDo(print())
 				 .andExpect(content().string("success"));
 	}
