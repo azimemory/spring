@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- beanTest의 매개변수가 있는 생성자에 전달할 Date빈을 등록 -->
+	<bean id="dateBean" class="java.util.Date"/>
+	<bean id="codeBean" class="beanTest.Code"/>
+	<bean id="sin" class="beanTest.Score">
+			<constructor-arg value="신사임당"/>
+			<constructor-arg value="100"/>
+			<constructor-arg value="100"/>
+			<constructor-arg value="100"/>
+	</bean>
+	
+	<bean id="beanTest" class="beanTest.BeanTest">
+		<!-- DateBean을 생성자의 date 변수에 참조 시킴 -->
+		<constructor-arg name="date" ref="dateBean"/>
+		<property name="code" ref="codeBean"/>
+		<!-- setArray 메서드에 배열을 전달인자로 넘기기 -->
+		<property name="array">
+			<array>
+				<value>홍길동</value>
+				<value>이순신</value>
+				<value>김선달</value>
+				<value>김고은</value>
+			</array>
+		</property>
+		<property name="list">
+			<list>
+				<value>봄</value>
+				<value>여름</value>
+				<value>"가을"</value>
+				<value>겨울</value>
+			</list>
+		</property>
+		<property name="set">
+			<set>
+				<value>1</value>
+				<value>2</value>
+				<value>1</value>
+				<value>2</value>
+			</set>
+		</property>
+		<property name="map">
+			<map>
+				<entry>
+					<key><value>1</value></key>
+					<value>봄</value>
+				</entry>
+				<entry key="2" value="여름"/>
+				<entry key="3" value="가을"/>
+				<entry key="4" value="겨울"/>
+			</map>
+		</property>
+		<property name="properties">
+			<props>
+				<prop key="하늘">sky</prop>			
+				<prop key="여름">summer</prop>			
+			</props>
+		</property>
+
+		<!-- setScore(List<Score>)  -->
+		<property name="score">
+			<list>
+				<bean class="beanTest.Score">
+					<constructor-arg value="홍길동"/>
+					<constructor-arg value="100"/>
+					<constructor-arg value="90"/>
+					<constructor-arg value="80"/>
+				</bean>
+				<bean class="beanTest.Score">
+					<constructor-arg value="임꺽정"/>
+					<constructor-arg value="80"/>
+					<constructor-arg value="70"/>
+					<constructor-arg value="80"/>
+				</bean>
+				<ref bean="sin"/>
+			</list>
+		</property>
+	</bean>
+
+
+
+</beans>
