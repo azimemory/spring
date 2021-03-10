@@ -24,20 +24,4 @@
   		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>	
 	
-	<!-- 메일링 처리를 위해 JavaMailSenderImpl 객체를 빈으로 등록 -->
-	<bean id="mailSenderImpl" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.naver.com"/>
-		<property name="port" value="465"/>
-		<property name="username" value="killsky2014@naver.com"/>
-		<property name="password" value="1256812gk!A!"/>
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.transport.protocol">smtp</prop>
-				<prop key="mail.smtp.auth">true</prop>
-				<prop key="mail.smtp.starttls.enable">true</prop>			
-				<prop key="mail.smtp.ssl.enable">true</prop>
-				<prop key="mail.debug">true</prop>
-			</props>
-		</property>
-	</bean>
 </beans>
