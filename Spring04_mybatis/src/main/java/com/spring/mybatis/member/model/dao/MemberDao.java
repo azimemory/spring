@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.mybatis.member.model.vo.Member;
 
 @Repository
-public class MemberDao {
+public class MemberDao{
 	
 	private final SqlSessionTemplate session;
 	

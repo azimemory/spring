@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.spring.mybatis.member.model.dao.MemberMapper;
 import com.spring.mybatis.member.model.vo.Member;
 
 
@@ -41,6 +43,8 @@ import com.spring.mybatis.member.model.vo.Member;
 public class MemberTest {
 	@Autowired
 	private WebApplicationContext context;
+	@Autowired
+	private MemberMapper dao;
 	private MockMvc mockMvc;
 
 	@Before
@@ -71,6 +75,10 @@ public class MemberTest {
 		.andExpect(status().isOk());
 	}
 	
-	
-	
+	@Test
+	public void selectMemberById() throws Exception{
+		String userId = "test";
+		dao.selectMemberById(userId);
+		System.out.println(dao.selectMember(userId));
+	}
 }
