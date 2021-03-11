@@ -1,5 +1,7 @@
 package com.spring.mybatis.member;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -78,7 +80,6 @@ public class MemberTest {
 	@Test
 	public void selectMemberById() throws Exception{
 		String userId = "test";
-		dao.selectMemberById(userId);
-		System.out.println(dao.selectMember(userId));
+		Member member = dao.selectMemberById(userId);
 	}
 }
