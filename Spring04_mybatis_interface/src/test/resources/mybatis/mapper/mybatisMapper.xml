@@ -11,13 +11,12 @@
 	 statementType 속성 : 사용할 statement 를 지정할 수 있다. 기본은 preparedStatement 이다.
 	 _parameter : dao로 부터 전달받은 파라미터의 주소를 참조할 수 있다.
 -->    
-<mapper	namespace="com.spring.mybatis.mybatis.Mybatis">
-		
+<mapper	namespace="com.spring.mybatis.mybatis.MybatisMapper">
 	<!-- statementType : 사용할 statement를 선택할 수 있다.
 		기본값은 preparedStatement 이다.
 		프로시저를 호출하기 위해서는 CallableStatement를 사용해야 한다. -->
 	<insert id="insertRentBookInfo" statementType="CALLABLE">
-		{call SP_RENT_INSERT(#{bIdx, mode=IN})}
+		{call SP_RENT_INSERT(#{rentBook.bIdx, mode=IN})}
 	</insert>
 	
 	<!-- 동적쿼리, 조건문과 반복문을 사용해 쿼리를 동적으로 작성 할 수 있다. -->
