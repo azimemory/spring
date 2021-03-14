@@ -11,8 +11,9 @@
 	</appender>
 	
 	<!-- Application Loggers -->
+	<!-- mapper 인터페이스의 쿼리를 추적하기 위해 level을 낮춤 -->
 	<logger name="com.spring.mybatis">
-		<level value="info" />
+		<level value="trace" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
