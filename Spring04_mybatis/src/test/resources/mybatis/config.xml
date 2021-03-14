@@ -15,6 +15,7 @@
 	<mappers>
 		<mapper resource="mybatis/mapper/memberMapper.xml"/>
 		<mapper resource="mybatis/mapper/mybatisMapper.xml"/>
+		<mapper class="com.spring.mybatis.member.model.dao"/>
 	</mappers>
 
 
