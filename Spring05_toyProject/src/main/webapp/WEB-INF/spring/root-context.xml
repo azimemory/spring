@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+	http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 	
 	<!-- 
 		1. commons dbcp 라이브러리 추가
@@ -11,6 +14,7 @@
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
 		<property name="username" value="jpa"/>
 		<property name="password" value="1234"/>
+		<property name="maxWait" value="10000"/>
 	</bean>
 	
 	<!-- sqlSessionFactoryBean을 등록  -->
@@ -18,11 +22,9 @@
   		<property name="dataSource" ref="dataSource"/>
   		<property name="configLocation"  value="classpath:mybatis/config.xml"/>
 	</bean>	
-	
-	<!-- SqlSessionTemplate 생성 -->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-  		<constructor-arg index="0" ref="sqlSessionFactory" />
-	</bean>	
+
+	<!-- Spring의 Service 인터페이스의 Mapper Interface로 탐색함으로 annotation으로 filter해준다. -->
+	<mybatis:scan base-package="com.kh.toy" annotation="org.apache.ibatis.annotations.Mapper"/>
 	
 	<!-- 메일링 처리를 위해 JavaMailSenderImpl 객체를 빈으로 등록 -->
 	<bean id="mailSenderImpl" class="org.springframework.mail.javamail.JavaMailSenderImpl">

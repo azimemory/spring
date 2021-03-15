@@ -61,27 +61,21 @@ public class AuthInterceptor implements HandlerInterceptor{
 						throw new ToAlertException(ErrorCode.AUTH01);
 					}
 					break;
-				case "upload" :
-					if(session.getAttribute("user") == null) {
-						throw new ToAlertException(ErrorCode.AUTH01);
-					}	
-					break;
 				}
 			}
 		}
-		
 		return true;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

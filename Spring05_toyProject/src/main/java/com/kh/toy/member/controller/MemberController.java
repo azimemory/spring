@@ -3,11 +3,8 @@ package com.kh.toy.member.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.toy.member.model.service.MemberService;
+import com.kh.toy.member.model.service.impl.MemberServiceImpl;
 import com.kh.toy.member.model.vo.Member;
+
+import common.code.ErrorCode;
+import common.exception.ToAlertException;
 
 //@Controller : 
 //@RequestMapping : 해당 메서드와 매핑시킬 요청 url을 지정, http method 상관없음
@@ -36,13 +35,20 @@ import com.kh.toy.member.model.vo.Member;
 //					자바 bean 규약에 따라 생성된 객체여야 가능하며 생략이 가능하다. 
 //@ResponseBody : 응답바디에 직접 데이터를 작성
 
+//HttpEntity : Headers, body, status 를 가지고 있는 HTTP 메세지 관리 객체
+//RequetEntity : HttpEntity를 상속, Spring에서 요청과 관련된 정보를 저장하는 Entity
+//ResponseEntity : HttpEntity를 상속, Spring에서 응답과 관련된 정보를 저장하는 Entity
+//HttpSession : Spring에서 Session과 관련된 작업을 수행하는 객체
+// *** HttpServletRequest와 HttpServletResponse 같은 Servlet 객체를 Controller의 파라미터를 통해 전달 받을 수 있다.
+//	   Servlet 객체를 통해서 Request와 Response를 관리할 수 있지만, 이왕이면 Spring이 제공해주는 클래스를 사용하는 것이 더 바람직하다.
+
 @Controller
-@RequestMapping("/member")
+@RequestMapping("member")
 public class MemberController {
 	
-	private final MemberService memberService;
+	private final MemberServiceImpl memberService;
 	
-	public MemberController(MemberService memberService) {
+	public MemberController(MemberServiceImpl memberService) {
 		this.memberService = memberService;
 	}
 	
@@ -77,7 +83,13 @@ public class MemberController {
 	//@PathVariable : 동적 url의 패스변수값을 받을 변수 앞에 작성
 	@GetMapping("joinimpl/{sessionId}")
 	public String joinImpl(@PathVariable("sessionId") String sessionId, HttpSession session, Model model) {
+		
 		Map<String,String> member = (Map<String,String>)session.getAttribute("persistUser");
+		
+		if(!sessionId.equals(member.get("sessionId"))) {
+			throw new ToAlertException(ErrorCode.AUTH02);
+		}
+		
 		memberService.insertMember(member);
 		session.removeAttribute("persistUser");
 		return "member/login";
@@ -89,9 +101,7 @@ public class MemberController {
 	@PostMapping("loginimpl")
 	@ResponseBody
 	public String loginImpl(@RequestBody Member authInfo, HttpSession session) {
-		System.out.println(authInfo);
 		Member member = memberService.authenticateUser(authInfo);
-		
 		if(member != null) {
 			session.setAttribute("userInfo", member);
 			return "success";
@@ -114,8 +124,10 @@ public class MemberController {
 		return "member/mypage";
 	}
 	
-	
-	
-	
-
+	@GetMapping("leave")
+	public String leave(HttpSession session){
+		Member userInfo = (Member) session.getAttribute("userInfo");
+		memberService.updateMemberToLeave(userInfo.getUserId());
+		return "member/mypage";
+	}
 }

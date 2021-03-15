@@ -27,7 +27,7 @@
   		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>	
 	
-	<mybatis:scan base-package="com.spring.mybatis"/>
+	<mybatis:scan base-package="com.spring.mybatis" annotation="org.apache.ibatis.annotations.Mapper"/>
 	
 
 </beans>

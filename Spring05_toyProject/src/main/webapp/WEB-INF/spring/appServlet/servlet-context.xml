@@ -24,6 +24,16 @@
 	<beans:bean id="bcryptPasswordEncoder" 
 				class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	
+	<!-- restTemplate의 기본세팅은 connectTimeout과 readTimeout이 -1로 무한정 대기한다.  -->
+	<beans:bean id="simpleClientHttpRequestFactory"
+				class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+				<beans:property name="connectTimeout" value="5000"/>
+				<beans:property name="readTimeout" value="5000"/>
+	</beans:bean>
+	<beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<beans:constructor-arg name="requestFactory" ref="simpleClientHttpRequestFactory"/>
+	</beans:bean>
+	
 	<!-- 인터셉터 등록 -->
 	<interceptors>
 		<interceptor>

@@ -5,19 +5,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.kh.toy.member.model.vo.Member;
+
+import common.code.Code;
 
 //시작 전 
 // * oracle6 드라이버를 프로젝트 빌드패스에 추가하고 시작할 것.
@@ -37,9 +51,14 @@ import com.kh.toy.member.model.vo.Member;
 		locations= {"file:src/main/webapp/WEB-INF/spring/**/*-context.xml"})
 
 public class MemberTest {
+	
 	@Autowired
 	private WebApplicationContext context;
+	
 	private MockMvc mockMvc;
+	
+	@Autowired
+	private RestTemplate rt;
 
 	@Before
 	public void setup(){
@@ -51,6 +70,7 @@ public class MemberTest {
 		 this.mockMvc.perform(
 				 post("/member/loginimpl")
 				 .contentType(MediaType.APPLICATION_JSON)
+				 .cookie(new Cookie("testCookie", "cookie"))
 				 .content("{\"userId\":\"test\",\"password\":\"123qwe!@#\"}"))
 				 .andDo(print())
 				 .andExpect(content().string("success"));
@@ -69,6 +89,21 @@ public class MemberTest {
 		.andExpect(status().isOk());
 	}
 	
+	@Test
+	public void restTemplateTest() {
+		HttpHeaders header = new HttpHeaders();
+		header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		header.add("Authorization", "KakaoAK 090218d8cb8b083610cf6e9d96d86215");
+		HttpEntity entity = new HttpEntity<>(header);
 	
-	
+		Map<String,String> uriVariables = new HashMap<>();
+		ResponseEntity<Map> re = rt
+				.exchange("https://dapi.kakao.com/v3/search/{type}?query={keyword}"
+						, HttpMethod.GET
+						, entity
+						, Map.class
+						,"book"
+						,"자바");
+		System.out.println(re.getBody());
+	}
 }

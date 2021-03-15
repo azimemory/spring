@@ -6,7 +6,6 @@ public enum Code {
 	DOMAIN("http://localhost:9797"),
 	EMAIL("killsky2014@naver.com"),
 	UPLOAD("C:\\CODE\\afternoon\\E_SERVLET\\resources\\upload\\");
-	
 	public String desc;
 	
 	Code(String desc){
