@@ -1,5 +1,7 @@
 package common.util.file;
 
+import common.code.Code;
+
 public class FileVo {
 
 	int fIdx;
@@ -9,6 +11,7 @@ public class FileVo {
 	String renameFileName;
 	String savePath;
 	String isDel;
+	String fullPath;
 	
 	public int getfIdx() {
 		return fIdx;
@@ -52,6 +55,10 @@ public class FileVo {
 	
 	public void setSavePath(String savePath) {
 		this.savePath = savePath;
+	}
+	
+	public String getFullPath() {
+		return Code.UPLOAD.desc+savePath;
 	}
 	
 	public String getType() {

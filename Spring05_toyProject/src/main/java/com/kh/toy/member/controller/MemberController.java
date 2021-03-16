@@ -3,9 +3,14 @@ package com.kh.toy.member.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.toy.member.model.service.impl.MemberServiceImpl;
 import com.kh.toy.member.model.vo.Member;
+import com.kh.toy.member.validator.MemberValidator;
 
 import common.code.ErrorCode;
 import common.exception.ToAlertException;
@@ -47,10 +53,18 @@ import common.exception.ToAlertException;
 public class MemberController {
 	
 	private final MemberServiceImpl memberService;
+	private final MemberValidator memberValidator;
 	
-	public MemberController(MemberServiceImpl memberService) {
+	public MemberController(MemberServiceImpl memberService
+						,MemberValidator memberValidator) {
 		this.memberService = memberService;
+		this.memberValidator = memberValidator;
 	}
+
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(memberValidator);
+    }
 	
 	//반환형이 void일 경우 요청온 viewResolver에 등록된 prefix를 기준으로
 	//url과 같은 경로에 있는 jsp로 요청을 재지정한다.
@@ -58,9 +72,12 @@ public class MemberController {
 	public void join() {}
 	
 	@GetMapping("idcheck")
-	@ResponseBody
-	public String confirmId(@RequestParam String userId) {
-		if(memberService.selectMemberById(userId) == null) {
+	public String confirmId(@ModelAttribute @Valid Member member, Errors errors) {
+		if(errors.hasErrors()) {
+			return "validator fail";
+		}
+		
+		if(memberService.selectMemberById(member.getUserId()) == null) {
 			return "success";
 		}else {
 			return "fail";

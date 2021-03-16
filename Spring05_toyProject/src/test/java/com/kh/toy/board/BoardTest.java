@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -47,9 +48,12 @@ public class BoardTest {
 	
 	@Test
 	public void uploadBoard() throws Exception{
+		MockMultipartFile file 
+		= new MockMultipartFile("files","OFM.txt",null,"testFiles".getBytes());
+		
 		 this.mockMvc.perform(
 			 multipart("/board/upload")
-			 .file("files", "testFile".getBytes())
+			 .file(file)
 			 .contentType(MediaType.MULTIPART_FORM_DATA)
 			 .param("title", "목객체게시글테스트")
 			 .param("content", "게시글본문")

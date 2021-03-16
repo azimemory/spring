@@ -1,5 +1,6 @@
 package com.kh.toy.member;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -54,15 +55,20 @@ public class MemberTest {
 	
 	@Autowired
 	private WebApplicationContext context;
-	
 	private MockMvc mockMvc;
 	
-	@Autowired
-	private RestTemplate rt;
-
 	@Before
 	public void setup(){
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+	}
+	
+	@Test
+	public void idCheck() throws Exception{
+		 this.mockMvc.perform(
+				 get("/member/idcheck")
+				 .queryParam("userId", "test"))
+				 .andDo(print())
+				 .andExpect(content().string("success"));
 	}
 	
 	@Test
@@ -87,23 +93,5 @@ public class MemberTest {
 				.param("email","azimemory@naver.com"))
 		.andDo(print())
 		.andExpect(status().isOk());
-	}
-	
-	@Test
-	public void restTemplateTest() {
-		HttpHeaders header = new HttpHeaders();
-		header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		header.add("Authorization", "KakaoAK 090218d8cb8b083610cf6e9d96d86215");
-		HttpEntity entity = new HttpEntity<>(header);
-	
-		Map<String,String> uriVariables = new HashMap<>();
-		ResponseEntity<Map> re = rt
-				.exchange("https://dapi.kakao.com/v3/search/{type}?query={keyword}"
-						, HttpMethod.GET
-						, entity
-						, Map.class
-						,"book"
-						,"자바");
-		System.out.println(re.getBody());
 	}
 }

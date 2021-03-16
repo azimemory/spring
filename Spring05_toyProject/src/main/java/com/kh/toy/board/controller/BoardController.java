@@ -33,10 +33,6 @@ public class BoardController {
 	
 	public BoardController(BoardService boardService) {
 		this.boardService = boardService;
-		
-		if(this.boardService instanceof BoardService) {
-			System.out.println("BoardServiceImpl");
-		}
 	}
 	
 	@GetMapping("detail")
@@ -51,9 +47,11 @@ public class BoardController {
 	
 	//MultiPart 요청이 오면, File은 MultipartFile 객체로 게시글은 Board 객체로 바인드 해준다.
 	@PostMapping("upload")
-	public String uploadBoard(@RequestParam List<MultipartFile> files
-			, @SessionAttribute(name = "userInfo", required = false) Member member
+	public String uploadBoard(
+			  @RequestParam List<MultipartFile> files
+			, @SessionAttribute(name="userInfo",required = false) Member member
 			, Board board) {
+		
 		//로그인한 회원이라면
 		if(member != null) {
 			board.setUserId(member.getUserId()); //게시글 작성자에 해당 회원의 아이디

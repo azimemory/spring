@@ -4,8 +4,6 @@
 <!-- 
 	마이바티스의 SqlSession 객체는 사용하고나면 반드시 닫아줘야 하며 쓰래드 세이프하지 않다.(myBatis 시작하기 페이지 참고)
 	하지만 마이바티스 스프링 연동모듈에서 사용하는 SqlSessionTemplate은 사용하고나면 자동으로 닫히며, 자동으로 트랜잭션관리를 하고 쓰래드 세이프하도록 처리가 되어 있다.
-
-
 	 #{} : preparedStatement의 파라미터로 전달된다.  
 	 ${} : 파라미터가 아니라 쿼리의 일부분을 구성하는 문자열로 취급된다. 
 	 statementType 속성 : 사용할 statement 를 지정할 수 있다. 기본은 preparedStatement 이다.

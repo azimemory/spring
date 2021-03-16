@@ -99,9 +99,9 @@ public class MybatisTest {
 	public void insertForeachTest() {
 		Map<String,Object> command = new HashMap<String, Object>();
 	
-		String[] promaryKey = {"bk_idx","sc_bk_idx.nextval"}; 	
+		String[] primaryKey = {"bk_idx","sc_bk_idx.nextval"}; 	
 		command.put("table","book"); 	//테이블 지정
-		command.put("primaryKey",promaryKey); //기본키 설정
+		command.put("primaryKey",primaryKey); //기본키 설정
 		
 		Map<String,String> data = new HashMap<String, String>();
 		data.put("title","템플릿도서");
