@@ -66,7 +66,7 @@ public class MemberTest {
 	public void idCheck() throws Exception{
 		 this.mockMvc.perform(
 				 get("/member/idcheck")
-				 .queryParam("userId", "test"))
+				 .queryParam("userId", "CLASS"))
 				 .andDo(print())
 				 .andExpect(content().string("success"));
 	}

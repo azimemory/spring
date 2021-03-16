@@ -29,23 +29,23 @@ public interface BoardRepository{
 	@Select("select * from board where bd_idx = #{bdIdx}")
 	Board selectBoardDetail(String bdIdx);
 	
-	@Select("select * from file where f_idx = #{fIdx}")
+	@Select("select * from file_info where fl_idx = #{fIdx}")
 	FileVo selectFileWithFIdx(String fIdx);
 	
-	@Select("select * from file where bd_idx = #{bdIdx}")
+	@Select("select * from file_info where bd_idx = #{bdIdx}")
 	List<FileVo> selectFileWithBdIdx(String bdIdx);
 	
-	@Delete("delete from file where f_idx = #{fIdx}")
+	@Delete("delete from file_info where fl_idx = #{fIdx}")
 	int deleteFileByFIdx(String fIdx);
 	
 	@Delete("delete from board where bd_idx = #{bdIdx}")
 	int deleteBoard(String bdIdx);
 	
-	@Delete("delete from file "
+	@Delete("delete from file_info "
 			+ "where type_idx = #{typeIdx} and type = 'board'")
 	int deleteFileWithBoard(String typeIdx);
 	
-	@Delete("delete from file where f_idx = #{fIdx} ")
+	@Delete("delete from file_info where fl_idx = #{fIdx} ")
 	int deleteFile(String fIdx);
 	
 	@Update("update board set title = #{title}, content = #{content} "

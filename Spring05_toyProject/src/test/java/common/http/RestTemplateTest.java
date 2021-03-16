@@ -17,16 +17,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
 
 @WebAppConfiguration
-
-//@RunWith : Junit 프레임워크의 테스트 실행방법을 변경할때 지정
-//SpringJUnit4ClassRunner.class : 
-//			테스트를 진행할 때 사용할 applicationContext를 만들고 관리한다.
 @RunWith(SpringJUnit4ClassRunner.class)
-
-//자동으로 생성되는 applicationContext의 설정파일 위치를 지정
 @ContextConfiguration(
 		locations= {"file:src/main/webapp/WEB-INF/spring/**/*-context.xml"})
-
 public class RestTemplateTest {
 	
 	@Autowired

@@ -5,7 +5,7 @@
 <mapper namespace="com.kh.toy.board.model.repository.BoardRepository">
 	<insert id="insertFile">
 		insert into file_info
-			(f_idx, type_idx, origin_file_name,
+			(fl_idx, type_idx, origin_file_name,
 			 rename_file_name, save_path)
 		values(
 			SC_FILE_IDX.nextval, 

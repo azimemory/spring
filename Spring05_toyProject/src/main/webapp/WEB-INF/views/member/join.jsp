@@ -12,14 +12,14 @@
 </head>
 <body>
  <h1>회원 가입 양식</h1>
-    <form action="${context}/member/mailauth" method="post" id="frm_join">
+    <form:form action="${context}/member/mailauth" method="post" id="frm_join">
      <table>
         <tr>
            <td>ID : </td>
            <td>
            	  <input type="text" name="userId" id="id" size="10" required/>
               <button type="button" onclick="idCheck()">check</button>
-              <span class="valid_info" id="id_check"></span>
+              <form:errors path="userId"/>
            </td>
         </tr>
         <tr>
@@ -27,18 +27,21 @@
            <td>
            	  <input type="password" name="password" id="pw" required/>
            	  <span id="pw_confirm" class="valid_info"></span>
+           	  <form:errors path="password"/>
            </td>
         </tr>
         <tr>
            <td>휴대폰번호 : </td>
            <td>
            	  <input type="tel" name="tell" required/>
+           	  <form:errors path="tell"/>
            </td>
         </tr>
         <tr>
            <td>email : </td>
            <td>
            	  <input type="email" name="email" required/>
+           	  <form:errors path="email"/>
            </td>
         </tr>
         <tr>
@@ -48,7 +51,7 @@
            </td>
        </tr>
    </table>
-   </form>
+   </form:form>
    
    <script type="text/javascript">
    let idCheckFlg = false;

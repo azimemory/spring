@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.toy.member.model.service.MemberService;
 import com.kh.toy.member.model.service.impl.MemberServiceImpl;
 import com.kh.toy.member.model.vo.Member;
 import com.kh.toy.member.validator.MemberValidator;
@@ -52,17 +53,26 @@ import common.exception.ToAlertException;
 @RequestMapping("member")
 public class MemberController {
 	
-	private final MemberServiceImpl memberService;
+	private final MemberService memberService;
 	private final MemberValidator memberValidator;
 	
-	public MemberController(MemberServiceImpl memberService
+	public MemberController(MemberService memberService
 						,MemberValidator memberValidator) {
 		this.memberService = memberService;
 		this.memberValidator = memberValidator;
 	}
 
-    @InitBinder
+	//InitBinder : 특정 컨트롤러에서 validator를 사용하고 싶을 경우 지정	
+    @InitBinder("member")
     public void initBinder(WebDataBinder webDataBinder) {
+    	//webDataBinder : Controller의 파라미터에 데이터를 바인드 해주는 객체
+    	//적용 대상
+    	//@RequestParam파라미터 
+		//@RequestHeader파라미터
+		//@CookieValue파라미터
+		//@PathVariable파라미터
+		//@ModelAttribute파라미터
+
         webDataBinder.addValidators(memberValidator);
     }
 	
@@ -74,14 +84,10 @@ public class MemberController {
 	@GetMapping("idcheck")
 	public String confirmId(@ModelAttribute @Valid Member member, Errors errors) {
 		if(errors.hasErrors()) {
-			return "validator fail";
+			return "member/join";
 		}
 		
-		if(memberService.selectMemberById(member.getUserId()) == null) {
-			return "success";
-		}else {
-			return "fail";
-		}
+		return "index/index";
 	}
 	
 	@PostMapping("mailauth")
