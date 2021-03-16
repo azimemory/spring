@@ -1,15 +1,11 @@
-package com.kh.toy.member.model.dao;
-
-import java.util.Map;
+package com.spring.mybatis.member.model.dao;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.MultiValueMap;
-
-import com.kh.toy.member.model.vo.Member;
+import com.spring.mybatis.member.model.vo.Member;
 
 @Repository
-public class MemberDao {
+public class MemberDao{
 	
 	private final SqlSessionTemplate session;
 	
@@ -21,7 +17,7 @@ public class MemberDao {
 		return session.selectOne("mapper.member.selectMemberById",userId);
 	}
 	
-	public void insertMember(Map<String,String> member) {
+	public void insertMember(Member member) {
 		session.insert("mapper.member.insertMember",member);
 	}
 	

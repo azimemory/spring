@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- 
+	마이바티스의 SqlSession 객체는 사용하고나면 반드시 닫아줘야 하며 쓰래드 세이프하지 않다.(myBatis 시작하기 페이지 참고)
+	하지만 마이바티스 스프링 연동모듈에서 사용하는 SqlSessionTemplate은 사용하고나면 자동으로 닫히며, 자동으로 트랜잭션관리를 하고 쓰래드 세이프하도록 처리가 되어 있다.
+	 #{} : preparedStatement의 파라미터로 전달된다.  
+	 ${} : 파라미터가 아니라 쿼리의 일부분을 구성하는 문자열로 취급된다. 
+	 statementType 속성 : 사용할 statement 를 지정할 수 있다. 기본은 preparedStatement 이다.
+	 _parameter : dao로 부터 전달받은 파라미터의 주소를 참조할 수 있다.
+-->    
+<mapper	namespace="com.spring.mybatis.mybatis.MybatisMapper">
+	<!-- statementType : 사용할 statement를 선택할 수 있다.
+		기본값은 preparedStatement 이다.
+		프로시저를 호출하기 위해서는 CallableStatement를 사용해야 한다. -->
+	<insert id="insertRentBookInfo" statementType="CALLABLE">
+		{call SP_RENT_INSERT(#{rentBook.bIdx, mode=IN})}
+	</insert>
+	
+	<!-- 동적쿼리, 조건문과 반복문을 사용해 쿼리를 동적으로 작성 할 수 있다. -->
+	<select id="selectIfTest" resultType="map">
+		select * from book where
+		<if test="searchType == 'info'">
+			info like '%'||#{keyword}||'%'
+		</if> 
+		<if test="searchType == 'title'">
+			title like '%'||#{keyword}||'%'
+		</if> 
+	</select>
+	
+	<select id="selectChooseWhenTest" resultType="map">
+		select * from book where
+		<choose>
+			<when test="searchType == info">
+				info like '%'||#{keyword}||'%'
+			</when>
+			<when test="searchType == author">
+				author like '%'||#{keyword}||'%'
+			</when>
+			<otherwise>
+				title like '%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- #{} : preparedStatement의 파라미터로 전달된다.  
+		 ${} : 파라미터가 아니라 쿼리의 일부분을 구성하는 문자열로 취급된다. -->
+	<insert id="insertForeachTest">
+		insert into ${table} 
+		(${primaryKey[0]},
+		<foreach collection="data" index="column" item="value" close=")" separator=",">
+			${column}
+		</foreach>
+		values (${primaryKey[1]},
+		<foreach collection="data" index="column" item="value" close=")" separator=",">
+			#{value}
+		</foreach>
+	</insert>
+	
+	<!-- set 태그 테스트 -->
+	<update id="updateSetTagTest">
+		update
+			member
+		<set>
+			<if test="password != null">password=#{password},</if>
+			<if test="email != null">email=#{email},</if>
+			<if test="tell != null">tell=#{tell}</if>
+		</set>
+		where user_id = #{userId}
+	</update>
+	
+	<!-- where 태그 테스트 -->
+	<select id="selectWhereTagTest" resultType="map">
+		select * from book
+		<where>
+			<foreach collection="searchTypes" item="value">
+				<if test="value == 'rentable'">
+					book_amt > 0
+				</if>
+				<if test="value == 'title'">
+					or title = #{keyword}
+				</if>
+				<if test="value == 'author'">
+					or author = #{keyword}
+				</if>
+			</foreach>
+		</where>
+	</select>
+	
+	<!-- 
+		resultMap : 마이바티스의 자동매핑으로 처리가 힘들 때 사용
+				   반환되는 Map의 key값을 지정하거나, 데이터 타입을 명시적으로 적용하고 싶을 때 사용 
+	    		   javaType : resultMap이 Object map일 경우 타입을  mybatis가 정하게 된다. 
+								ex) number -> BigDecimal
+				   이때 javaType을 명시해두면 원하는 타입으로 값을 받을 수 있다.  -->
+	<resultMap type="map" id="rentData">
+		<result column="rm_Idx" property="rmIdx" javaType="int"/>
+		<result column="rb_Idx" property="rbIdx" javaType="int"/>
+		<result column="Info" property="info"/>
+		<result column="title" property="title"/>
+		<result column="author" property="author"/>
+		<result column="isbn" property="isbn" javaType="String"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="return_date" property="returnDate"/>
+		<result column="EXTENTION_CNT" property="extentionCnt" javaType="int"/>
+		<result column="state" property="state"/>
+	</resultMap>
+	<select id="selectRentbookinfo" resultMap="rentData">
+		 select 
+		  rb.rm_Idx, rb.rb_Idx, b.title, b.author, b.isbn,
+		  rb.reg_date, rb.return_date, rb.EXTENTION_CNT, rb.state 
+		  from rent_book rb
+		  inner join book b using(bk_idx) 
+		  where
+	  		<if test="searchType == 'rmIdx'">
+	  			rb.rm_Idx = #{idx}
+	  		</if>
+	  		<if test="searchType == 'rbIdx'">
+	  			rb.rb_Idx = #{idx}
+	  		</if>
+	</select>
+	
+</mapper>

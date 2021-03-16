@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="com.spring.mybatis.member.model.dao.MemberMapper">
+	<insert id="insertMember">
+		insert into 
+		member
+			(user_id, password, email, tell)
+		values
+			(#{userId},#{password},#{email},#{tell})
+	</insert>
+	<!-- 암호화 이후 로그인 쿼리 -->
+	<select id="selectMember" resultType="MEMBER">
+		select 
+			user_id, password, email, tell, reg_date
+		from
+			member
+		where 
+			user_id=#{id} and is_leave = 0
+	</select>
+	
+	<!-- 암호화 이전 로그인 쿼리 -->
+	<!-- <select id="selectMember" resultType="MEMBER">
+		select 
+			user_id, password, email, tell, reg_date
+		from
+			tb_member
+		where 
+			user_id=#{userId} and password = #{password}
+			and is_leave = 0
+	</select> -->
+	
+	<update id="updateMember">
+		update
+			member
+		<set>
+			<if test="password != null">password=#{password},</if>
+			<if test="email != null">email=#{email},</if>
+			<if test="tell != null">tell=#{tell}</if>
+		</set>
+	
+	</update>
+	<update id="leaveMember">
+		update 
+			member
+		set
+			is_leave = 1
+		where
+			user_id = #{userId}
+	</update>
+	<!-- 아이디 중복 여부 확인을 위한 쿼리 -->
+	<select id="selectMemberById" resultType="MEMBER">
+		select *
+		from member 
+		where user_id = #{userId}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

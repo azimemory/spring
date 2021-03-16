@@ -1,7 +1,7 @@
 package common.code;
 
 public enum ErrorCode {
-
+	
 	SM01("회원정보를 조회하는 도중 에러가 발생하였습니다.","/member/login"),
 	SM02("아이디나 패스워드가 틀렸습니다.","/member/login"),
 	IM01("회원정보를 입력하는 도중 에러가 발생하였습니다.","/member/join"),

@@ -32,8 +32,13 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
-				
+		<!-- spring-context-support  -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>5.2.6.RELEASE</version>
+		</dependency>	
+			
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -139,17 +144,9 @@
 		    <artifactId>spring-orm</artifactId>
 		    <version>5.2.6.RELEASE</version>
 		</dependency>
-		<!-- 쿼리 로그를 남기기 위한 dependency -->
-		<dependency> 
-			<groupId>org.lazyluke</groupId> 
-			<artifactId>log4jdbc-remix</artifactId> 
-			<version>0.2.7</version> 
-		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-		<!-- json으로 들어온 컨트롤러의 파라미터를
-			 java객체로 바꿔준다.
-			 자바 Map또는 vo로 반환한 객체를
-			 json으로 바꿔준다. -->
+		<!-- json과 자바 객체를 바인드 해주는 의존 라이브러리 -->
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-core</artifactId>
@@ -174,13 +171,7 @@
 		    <artifactId>javax.mail</artifactId>
 		    <version>1.6.2</version>
 		</dependency>
-		<!-- spring-context-support  -->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-context-support</artifactId>
-		    <version>5.2.6.RELEASE</version>
-		</dependency>
-			<!-- 파일업로드를 위한 dependency -->
+		<!-- 파일업로드를 위한 dependency -->
 		<dependency>
 		    <groupId>commons-io</groupId>
 		    <artifactId>commons-io</artifactId>
@@ -198,6 +189,14 @@
 		    <artifactId>spring-security-crypto</artifactId>
 		    <version>5.2.6.RELEASE</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.hibernate.validator</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>6.2.0.Final</version>
+		</dependency>
+		
+		
 		<!-- Test -->
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>

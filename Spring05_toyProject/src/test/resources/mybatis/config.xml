@@ -9,11 +9,13 @@
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
 	<typeAliases>
-		<typeAlias type="com.kh.toy.member.model.vo.Member" alias="MEMBER"/>		
+		<typeAlias type="com.kh.toy.member.model.vo.Member" alias="MEMBER"/>	
+		<typeAlias type="com.kh.toy.board.model.vo.Board" alias="BOARD"/>	
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mybatis/mapper/memberMapper.xml"/>
+		<mapper resource="mybatis/mapper/boardMapper.xml"/>
 	</mappers>
 
 
