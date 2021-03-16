@@ -39,7 +39,6 @@
 			<if test="email != null">email=#{email},</if>
 			<if test="tell != null">tell=#{tell}</if>
 		</set>
-	
 	</update>
 	<update id="leaveMember">
 		update 
