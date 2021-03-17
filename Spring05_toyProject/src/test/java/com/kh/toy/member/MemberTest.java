@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
 
@@ -30,27 +31,24 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.kh.toy.member.model.repository.MemberRepository;
 import com.kh.toy.member.model.vo.Member;
 
 import common.code.Code;
-
 //시작 전 
 // * oracle6 드라이버를 프로젝트 빌드패스에 추가하고 시작할 것.
 // * mybatis의 config.xml 파일에서 mapper 경로 확인. mapper resource 경로 앞에 '/'있으면 안된다.
 
-//프로젝트의 web.xml이 아니라 테스트를 위해 
-//자동으로 생성되는 가상의 web.xml을 사용하겠다는 의미
+// @WebAppConfiguration : 프로젝트의 web.xml이 아니라 테스트를 위해 자동으로 생성되는 가상의 web.xml을 사용
+// @RunWith : Junit 프레임워크의 테스트 실행방법을 변경할때 지정, 
+// 			  SpringJUnit4ClassRunner.class 
+//					>> 테스트를 진행할 때 사용할 applicationContext를 만들고 관리한다.
+// @ContextConfiguration : 자동으로 생성되는 applicationContext의 설정파일 위치를 지정
+
 @WebAppConfiguration
-
-//@RunWith : Junit 프레임워크의 테스트 실행방법을 변경할때 지정
-//SpringJUnit4ClassRunner.class : 
-//			테스트를 진행할 때 사용할 applicationContext를 만들고 관리한다.
 @RunWith(SpringJUnit4ClassRunner.class)
-
-//자동으로 생성되는 applicationContext의 설정파일 위치를 지정
 @ContextConfiguration(
 		locations= {"file:src/main/webapp/WEB-INF/spring/**/*-context.xml"})
-
 public class MemberTest {
 	
 	@Autowired
@@ -72,11 +70,21 @@ public class MemberTest {
 	}
 	
 	@Test
+	public void authenticateEmail() throws Exception {
+		mockMvc.perform(
+				post("/member/mailauth")
+				.param("userId", "helloSpring")
+				.param("password", "112119")
+				.param("email", "azimemory@gmail.com")
+				.param("tell", "010-0112-0119"))
+			.andDo(print());
+	}
+	
+	@Test
 	public void loginTest() throws Exception{
 		 this.mockMvc.perform(
 				 post("/member/loginimpl")
 				 .contentType(MediaType.APPLICATION_JSON)
-				 .cookie(new Cookie("testCookie", "cookie"))
 				 .content("{\"userId\":\"test\",\"password\":\"123qwe!@#\"}"))
 				 .andDo(print())
 				 .andExpect(content().string("success"));
@@ -95,3 +103,5 @@ public class MemberTest {
 		.andExpect(status().isOk());
 	}
 }
+	
+	

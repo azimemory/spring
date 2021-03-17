@@ -1,6 +1,7 @@
 package com.kh.toy.board;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -8,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -28,6 +30,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.kh.toy.board.model.repository.BoardRepository;
 
+import common.util.file.FileVo;
+
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
@@ -35,11 +39,11 @@ import com.kh.toy.board.model.repository.BoardRepository;
 public class BoardTest {
 	
 	@Autowired
-	private RestTemplate rt;
-	
-	@Autowired
 	private WebApplicationContext context;
 	private MockMvc mockMvc;
+	
+	@Autowired
+	BoardRepository repo;
 	
 	@Before
 	public void setup(){
@@ -48,15 +52,41 @@ public class BoardTest {
 	
 	@Test
 	public void uploadBoard() throws Exception{
-		MockMultipartFile file 
-		= new MockMultipartFile("files","OFM.txt",null,"testFiles".getBytes());
-		
+		MockMultipartFile file1 
+		= new MockMultipartFile("files","OFM.txt",null,"firstTestFiles".getBytes());
+		MockMultipartFile file2 
+		= new MockMultipartFile("files","OFM.txt",null,"secondTestFiles".getBytes());
+	
 		 this.mockMvc.perform(
 			 multipart("/board/upload")
-			 .file(file)
+			 .file(file1)
+			 .file(file2)
 			 .contentType(MediaType.MULTIPART_FORM_DATA)
 			 .param("title", "목객체게시글테스트")
 			 .param("content", "게시글본문")
+			 )
+			 .andDo(print());
+	}
+	
+	@Test
+	public void boardListTest() throws Exception {
+		this.mockMvc.perform(
+				get("/board/list")
+				.queryParam("page", "1"))
+				.andDo(print());
+	}
+	
+	@Test
+	public void downloadFile() throws Exception{
+		String bdIdx = "100045";
+		List<FileVo> fileList = repo.selectFileWithBdIdx(bdIdx);
+		
+		 this.mockMvc.perform(
+			 get("/board/download")
+			 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+			 .queryParam("originFileName", fileList.get(0).getOriginFileName())
+			 .queryParam("renameFileName", fileList.get(0).getRenameFileName())
+			 .queryParam("savePath", fileList.get(0).getSavePath())
 			 )
 			 .andDo(print());
 	}

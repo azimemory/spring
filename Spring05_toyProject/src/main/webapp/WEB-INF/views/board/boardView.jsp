@@ -44,8 +44,8 @@
    } 
    
    function downloadFile(ofname,rfname,savePath){
-	  let params = {'ofname':ofname,
-			  		'rfname':rfname,
+	  let params = {'originFileName':ofname,
+			  		'renameFileName':rfname,
 			  		'savePath':savePath};
 	  
       location.href = '${context}' + "/board/download?" + urlEncodedForm(params);

@@ -51,12 +51,18 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Map<String, Object> selectBoardList(int currentPage, int cntPerPage) {
+	public Map<String, Object> selectBoardList(int currentPage) {
 		 Map<String, Object> commandMap = new HashMap<String, Object>();
+		
 		 //페이징 처리를 위한 객체 생성
-		 Paging p = new Paging(repo.selectContentCnt()
-				 ,currentPage,cntPerPage);
-		 
+		 Paging p = Paging.builder()
+				 	.cntPerPage(5)
+				 	.currentPage(currentPage)
+				 	.blockCnt(5)
+				 	.total(repo.selectContentCnt())
+				 	.type("board")
+				 	.build();
+		 System.out.println(p);
 		 //현재 페이지에 필요한 게시물 목록
 		 List<Board> blist = repo.selectBoardList(p);
 		 

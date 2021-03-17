@@ -32,7 +32,7 @@ public interface BoardRepository{
 	@Select("select * from file_info where fl_idx = #{fIdx}")
 	FileVo selectFileWithFIdx(String fIdx);
 	
-	@Select("select * from file_info where bd_idx = #{bdIdx}")
+	@Select("select * from file_info where type_idx = #{bdIdx}")
 	List<FileVo> selectFileWithBdIdx(String bdIdx);
 	
 	@Delete("delete from file_info where fl_idx = #{fIdx}")

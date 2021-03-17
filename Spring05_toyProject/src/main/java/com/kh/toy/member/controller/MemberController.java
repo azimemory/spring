@@ -1,10 +1,7 @@
 package com.kh.toy.member.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kh.toy.member.model.service.MemberService;
 import com.kh.toy.member.model.service.impl.MemberServiceImpl;
@@ -39,8 +37,14 @@ import common.exception.ToAlertException;
 //@RequestBody : MappingJacksonHttpMessageConverter가 동작, json을 객체로 바인드해준다.
 //				MultiValueMap 앞에 붙을 경우 FormHttpMessageConverter 가 메세지를 변환한다.
 //@ModelAttribute : FormHttpMessageConverter가 동작, 요청파라미터를 객체에 바인드 시킨 뒤 응답할 model 객체에 추가한다.
-//					자바 bean 규약에 따라 생성된 객체여야 가능하며 생략이 가능하다. 
 //@ResponseBody : 응답바디에 직접 데이터를 작성
+
+//webDataBinder : Controller의 파라미터에 데이터를 바인드 해주는 객체
+//@RequestParam
+//@RequestHeader
+//@CookieValue
+//@PathVariable
+//@ModelAttribute
 
 //HttpEntity : Headers, body, status 를 가지고 있는 HTTP 메세지 관리 객체
 //RequetEntity : HttpEntity를 상속, Spring에서 요청과 관련된 정보를 저장하는 Entity
@@ -63,16 +67,9 @@ public class MemberController {
 	}
 
 	//InitBinder : 특정 컨트롤러에서 validator를 사용하고 싶을 경우 지정	
+	// 	value : value값으로 지정된 변수명을 가진 파라미터만 검증
     @InitBinder("member")
     public void initBinder(WebDataBinder webDataBinder) {
-    	//webDataBinder : Controller의 파라미터에 데이터를 바인드 해주는 객체
-    	//적용 대상
-    	//@RequestParam파라미터 
-		//@RequestHeader파라미터
-		//@CookieValue파라미터
-		//@PathVariable파라미터
-		//@ModelAttribute파라미터
-
         webDataBinder.addValidators(memberValidator);
     }
 	
@@ -82,39 +79,48 @@ public class MemberController {
 	public void join() {}
 	
 	@GetMapping("idcheck")
-	public String confirmId(@ModelAttribute @Valid Member member, Errors errors) {
-		if(errors.hasErrors()) {
-			return "member/join";
+	@ResponseBody
+	public String confirmId(String userId) {
+		if(memberService.selectMemberById(userId) != null) {
+			return "fail";
 		}
-		
-		return "index/index";
+		return "success";
 	}
 	
 	@PostMapping("mailauth")
-	public String authenticateEmail(@RequestParam Map<String, String> persistInfo, HttpSession session, Model model) {
-		session.setAttribute("persistUser", persistInfo);
-		persistInfo.put("sessionId", session.getId());
-		memberService.authenticateEmail(persistInfo);
+	public String authenticateEmail(@Valid Member persistInfo
+					, Errors error //반드시 Errors 변수를 @Valid 변수 바로 뒤에 작성
+					, HttpSession session
+					, Model model) {
+		if(error.hasErrors()) {
+			return "member/join";
+		}
+		
+		session.setAttribute("persistInfo", persistInfo);
+		session.setAttribute("sessionId", session.getId());
+		
+		memberService.authenticateEmail(persistInfo,session.getId());
 		
 		model.addAttribute("msg", "이메일이 발송되었습니다.");
 		model.addAttribute("url","/index");
-		
 		return "common/result";
 	}
 	
 	//동적 url : joinimpl/ 로 시작하는 모든 요청을 해당 메서드로 받는다.
 	//@PathVariable : 동적 url의 패스변수값을 받을 변수 앞에 작성
 	@GetMapping("joinimpl/{sessionId}")
-	public String joinImpl(@PathVariable("sessionId") String sessionId, HttpSession session, Model model) {
+	public String joinImpl(
+			@PathVariable("sessionId") String sessionId
+									  , HttpSession session
+			,@SessionAttribute("persistInfo")Member persistInfo 
+									  , Model model) {
 		
-		Map<String,String> member = (Map<String,String>)session.getAttribute("persistUser");
-		
-		if(!sessionId.equals(member.get("sessionId"))) {
+		if(!session.getId().equals(sessionId)) {
 			throw new ToAlertException(ErrorCode.AUTH02);
 		}
 		
-		memberService.insertMember(member);
-		session.removeAttribute("persistUser");
+		memberService.insertMember(persistInfo);
+		session.removeAttribute("persistInfo");
 		return "member/login";
 	}
 	
@@ -140,17 +146,18 @@ public class MemberController {
 	public void myPage() {}
 	
 	@PostMapping("modify")
-	public String modify(@ModelAttribute Member member, HttpSession session){
-		Member userInfo = (Member) session.getAttribute("userInfo");
-		member.setUserId(userInfo.getUserId());
-		memberService.updateMember(member);
+	public String modify(@ModelAttribute Member updateInfo
+						,@SessionAttribute("userInfo") Member userInfo){
+		updateInfo.setUserId(updateInfo.getUserId());
+		memberService.updateMember(updateInfo);
 		return "member/mypage";
 	}
 	
 	@GetMapping("leave")
-	public String leave(HttpSession session){
-		Member userInfo = (Member) session.getAttribute("userInfo");
-		memberService.updateMemberToLeave(userInfo.getUserId());
-		return "member/mypage";
+	public String leave(@SessionAttribute("userInfo") Member member){
+		if(member != null) {
+			memberService.updateMemberToLeave(member.getUserId());
+		}
+		return "index/index";
 	}
 }

@@ -8,8 +8,8 @@ public interface MemberService {
 	
 	 Member authenticateUser(Member member);
 	 Member selectMemberById(String userId);
-	 void authenticateEmail(Map<String,String> member);
-	 void insertMember(Map<String,String> member);
+	 void authenticateEmail(Member member, String sessionId);
+	 void insertMember(Member member);
 	 void updateMember(Member member);
 	 void updateMemberToLeave(String userId);
 }

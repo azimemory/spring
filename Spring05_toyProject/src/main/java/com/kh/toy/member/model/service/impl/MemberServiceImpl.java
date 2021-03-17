@@ -2,6 +2,8 @@ package com.kh.toy.member.model.service.impl;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -52,26 +54,24 @@ public class MemberServiceImpl implements MemberService{
 		return repo.selectMemberById(userId);
 	}
 	
-	public void authenticateEmail(Map<String,String> member) {
-		
+	public void authenticateEmail(Member member, String sessionId) {
 		//RestTemplate의 기본 Contents-type은 application/json
-		//Contents-type 변경해보기
-		//Application/x-www-form-urlencode 형식으로 보낼 때 body는 /MultiValueMap<String, String>에 담는다.
+		//Application/x-www-form-urlencode 형식으로 보낼 때 파라미터는 MultiValueMap<String, String>에 담는다.
 		HttpHeaders header = new HttpHeaders();
 		header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		
-		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
-		
-		body.setAll(member);
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();		
 		body.add("mail-template","temp_join");
+		body.add("userId",member.getUserId());
+		body.add("sessionId",sessionId);
 		
 		HttpEntity entity = new HttpEntity(body,header);
 		ResponseEntity<String> re = rt.exchange(Code.DOMAIN+"/mail", HttpMethod.POST,entity, String.class);
-		mail.sendEmail(member.get("email"), "회원가입을 축하합니다.", re.getBody());
+		mail.sendEmail(member.getEmail(), "회원가입을 축하합니다.", re.getBody());
 	}
 	
-	public void insertMember(Map<String,String> member) {
-		member.put("password",passwordEncoder.encode(member.get("password")));
+	public void insertMember(Member member) {
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		repo.insertMember(member);
 	}
 	

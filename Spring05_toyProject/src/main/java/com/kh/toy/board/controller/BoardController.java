@@ -1,16 +1,20 @@
 package com.kh.toy.board.controller;
 
+import java.nio.charset.Charset;
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +28,7 @@ import com.kh.toy.board.model.vo.Board;
 import com.kh.toy.member.model.vo.Member;
 
 import common.code.Code;
+import common.util.file.FileVo;
 
 @Controller
 @RequestMapping("board")
@@ -45,11 +50,19 @@ public class BoardController {
 		return "board/boardForm";
 	}
 	
+	@GetMapping("list")
+	public String boardList(@RequestParam(required = false, defaultValue = "1")
+							int page, Model model) {
+		model.addAllAttributes(boardService.selectBoardList(page));
+		return "board/boardList";
+	}
+	
 	//MultiPart 요청이 오면, File은 MultipartFile 객체로 게시글은 Board 객체로 바인드 해준다.
 	@PostMapping("upload")
 	public String uploadBoard(
 			  @RequestParam List<MultipartFile> files
-			, @SessionAttribute(name="userInfo",required = false) Member member
+			, @SessionAttribute(name="userInfo",required = false) 
+			  Member member
 			, Board board) {
 		
 		//로그인한 회원이라면
@@ -64,23 +77,21 @@ public class BoardController {
 	}
 	
 	//파일 다운로드를 진행하기 위해 response의 contentsType을 지정해야한다.
-	@PostMapping("download")
-	public ResponseEntity<FileSystemResource> downloadFile(
-			String ofname, //사용자가 올린 파일 이름
-			String savePath //파일경로
-			) {
-		
-		  FileSystemResource resource 
-			= new FileSystemResource(Code.UPLOAD + savePath);
-		  
-		  ResponseEntity<FileSystemResource> response =
-				  new ResponseEntity<FileSystemResource>(resource,HttpStatus.OK);
-		  
-		  response.getHeaders().setContentDisposition(
-				  	ContentDisposition.builder("attachement")
-				  	.filename(ofname)
+	@GetMapping("download")
+	public ResponseEntity downloadFile(FileVo file) {
+		  HttpHeaders headers = new HttpHeaders();
+		  headers.setContentDisposition(
+				  ContentDisposition
+				  	.builder("attachment")
+				  	.filename(file.getOriginFileName(), Charset.forName("UTF-8"))
 				  	.build());
+		  headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		  
+		  FileSystemResource resource 
+			= new FileSystemResource(file.getFullPath() + file.getRenameFileName());
 		
+		  ResponseEntity response 
+		  	= new ResponseEntity(resource,headers,HttpStatus.OK);
 		  return response;
 	}
 }

@@ -14,25 +14,22 @@ public interface MemberRepository {
 	
 	@Insert("insert into member	(user_id, password, email, tell)"
 			+ "	values(#{userId},#{password},#{email},#{tell})")
-	int insertMember(Map<String,String> member);
+	int insertMember(Member member);
 	
 	@Select("select * from member"
 			+ "	where user_id=#{userId} and is_leave = 0")
-	Member selectMember(String userId);
+	Member selectMemberById(String userId);
+	
+	@Select("select count(*) from member where email = #{email}")
+	int selectMemberByEmail(String email);
+	
+	@Select("select count(*) from member where tell = #{tell}")
+	int selectMemberByTell(String tell);
 	
 	int updateMember(Member member);
 	
 	@Update("update member set is_leave = 1	"
 			+ "where user_id = #{userId}")
 	int updateMemberToLeave(String userId);
-	
-	@Select("select * from member where user_id = #{userId}")
-	Member selectMemberById(String userId);
-	
-	@Select("select count from member where email = #{email}")
-	int selectMemberByEmail(String email);
-	
-	
-	
 	
 }

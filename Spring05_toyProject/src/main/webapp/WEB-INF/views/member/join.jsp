@@ -4,7 +4,6 @@
 <head>
 	<style type="text/css">
 		.valid_info{
-			display:block; 
 			color:red;
 			font-size: 0.5vw;
 		}
@@ -12,14 +11,17 @@
 </head>
 <body>
  <h1>회원 가입 양식</h1>
-    <form:form action="${context}/member/mailauth" method="post" id="frm_join">
+    <form:form modelAttribute="member" 
+    	action="${context}/member/mailauth" 
+    	method="post" id="frm_join">
      <table>
         <tr>
            <td>ID : </td>
            <td>
            	  <input type="text" name="userId" id="id" size="10" required/>
               <button type="button" onclick="idCheck()">check</button>
-              <form:errors path="userId"/>
+              <span class="valid_info" id="id_check"></span>
+              <form:errors path="userId" cssClass="valid_info"/>
            </td>
         </tr>
         <tr>
@@ -27,21 +29,23 @@
            <td>
            	  <input type="password" name="password" id="pw" required/>
            	  <span id="pw_confirm" class="valid_info"></span>
-           	  <form:errors path="password"/>
+           	  <form:errors path="password" cssClass="valid_info"/>
            </td>
         </tr>
         <tr>
            <td>휴대폰번호 : </td>
            <td>
            	  <input type="tel" name="tell" required/>
-           	  <form:errors path="tell"/>
+           	  <span></span>
+           	  <form:errors path="tell" cssClass="valid_info"/>
            </td>
         </tr>
         <tr>
            <td>email : </td>
            <td>
            	  <input type="email" name="email" required/>
-           	  <form:errors path="email"/>
+           	  <span></span>
+           	  <form:errors path="email" cssClass="valid_info"/>
            </td>
         </tr>
         <tr>
@@ -90,7 +94,7 @@
 		   id.focus()
 	   }
 	   
-	   if(!(regExp.test(password))){
+	   if(false){
 		   //form의 데이터 전송을 막음
 		   e.preventDefault();
 		   pw_confirm.innerHTML = '비밀번호는 숫자,영문자,특수문자 조합의 8글자 이상인 문자열입니다.';

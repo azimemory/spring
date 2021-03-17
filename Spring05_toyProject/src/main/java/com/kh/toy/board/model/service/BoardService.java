@@ -11,7 +11,7 @@ public interface BoardService {
 	
 	public void insertBoard(Board board,List<MultipartFile> files);
 
-	public Map<String, Object> selectBoardList(int currentPage, int cntPerPage);
+	public Map<String, Object> selectBoardList(int currentPage);
 
 	public Map<String,Object> selectBoardDetail(String bdIdx);
 

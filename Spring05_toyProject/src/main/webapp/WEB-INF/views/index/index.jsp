@@ -14,6 +14,6 @@
 			<h2><a href="/member/logout">로그아웃</a></h2>
 		</c:otherwise>
 	</c:choose>
-	<h2><a href="/member/login">게시글 보기</a></h2>
+	<h2><a href="/board/list">게시글 보기</a></h2>
 </body>
 </html>

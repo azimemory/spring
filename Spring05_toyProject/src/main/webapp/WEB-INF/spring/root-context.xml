@@ -12,7 +12,7 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> 
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-		<property name="username" value="bm"/>
+		<property name="username" value="jpa"/>
 		<property name="password" value="1234"/>
 		<property name="maxWait" value="10000"/>
 	</bean>

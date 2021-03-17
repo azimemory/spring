@@ -1,7 +1,10 @@
 package com.kh.toy.member.validator;
 
+import java.util.regex.Pattern;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.kh.toy.member.model.repository.MemberRepository;
@@ -26,15 +29,23 @@ public class MemberValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		Member member = (Member)target;
 		
+		Pattern pattern = Pattern
+				.compile("^(?!.*[ㄱ-힣])(?=.*\\W)(?=.*\\d)(?=.*[a-zA-Z])(?=.{8,})");
+		
 		if(repo.selectMemberById(member.getUserId()) != null) {
-			errors.rejectValue("userId", "이미 존재하는 아이디 입니다.");
+			errors.rejectValue("userId","error.userId","이미 존재하는 아이디 입니다.");
 		}
 		
-		if(repo.selectMemberByEmail(member.getEmail()) > 0) {
-			errors.rejectValue("email", "이미 존재하는 이메일 입니다.");
+		if(!pattern.matcher(member.getPassword()).find()){
+			errors.rejectValue("password","error.password","비밀번호는 숫자,영문자,특수문자 조합의 8글자 이상인 문자열입니다.");;
 		}
 		
+		if(repo.selectMemberByEmail(member.getEmail()) != 0) {
+			errors.rejectValue("email","error.email","이미 존재하는 이메일 입니다.");
+		}
 		
-		
+		if(repo.selectMemberByTell(member.getTell()) != 0) {
+			errors.rejectValue("tell","error.tell","이미 존재하는 번호 입니다.");
+		}
 	}
 }
