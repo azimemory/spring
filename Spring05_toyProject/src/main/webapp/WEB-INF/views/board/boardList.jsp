@@ -3,18 +3,29 @@
 <%@include file="/WEB-INF/views/include/head.jsp" %>
 <head>
 <style type="text/css">
-	.paging{
-		width:100%;
+	.content{
+		width:80vw;
+		position:relative;
+		left:10vw;
 		display: flex;
-		justify-content: space-around;
+		flex-direction:column;
+		justify-content: center;
+	}
+
+	.paging{
+		width:30vw;
+		position:relative;
+		left:25vw;
+		display: flex;
+		justify-content:space-around;
 	}
 </style>
 	
 </head>
 <body>
 	<div class="content">
-	    <h2 class="tit">*게시판</h2>
-  	    <table>
+	    <h2 class="tit">* 게시판</h2>
+  	    <table style="text-align: center" border="1">
 	       <thead>
 	           <tr>
 	               <th style="width: 10%; height:20%;"><span>번호</span></th>
@@ -32,30 +43,21 @@
 	               <td>${board.regDate}</td>
 	           </tr>
 	        </c:forEach>
-	        <tr>
-	        	<td colspan="4">
-        		 <!-- section pagination -->
-			      <div class="paging">
-			         <a href="${context}/${paging.type}/list" class="nav first">처음</a>
-			         <a href="${context}/${paging.type}/list?page=${paging.prev}" class="nav prev">이전</i></a>
-			       
-			         <c:forEach begin="${paging.blockStart}" end="${paging.blockEnd}" var="page">
-			         	<a href="${context}/${paging.type}/list?page=${page}" class="num active"><span>${page}</span></a>
-			         </c:forEach> 
-			        
-			         <a href="${context}/${paging.type}/list?page=${paging.next}" class="nav next">다음</a>
-			 	   	 <a href="${context}/${paging.type}/list?page=${paging.lastPage}" class="nav last">마지막</a>
-			   	  </div>
-			   	  <!-- // section pagination -->
-	        	</td>
-	        </tr>
 	       </tbody>
 	    </table>
-		 
-	   	  
-	   	  <div class="btn_section" style="background-color:white">
-	      	 <a href="${context}/board/write">쓰기</a>
+	    <!-- section pagination -->
+	      <div class="paging">
+	         <a href="${context}/${paging.type}/list" class="nav first">《</a>
+	         <a href="${context}/${paging.type}/list?page=${paging.prev}">〈</i></a>
+	       
+	         <c:forEach begin="${paging.blockStart}" end="${paging.blockEnd}" var="page">
+	         	<a href="${context}/${paging.type}/list?page=${page}"><span>${page}</span></a>
+	         </c:forEach> 
+	        
+	         <a href="${context}/${paging.type}/list?page=${paging.next}">〉</a>
+	 	   	 <a href="${context}/${paging.type}/list?page=${paging.lastPage}">》</a>
 	   	  </div>
-	    </div>
+	   	  <!-- // section pagination -->
+	</div>
 </body>
 </html>

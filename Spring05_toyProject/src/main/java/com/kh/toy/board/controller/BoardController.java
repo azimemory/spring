@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +42,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("detail")
-	public String boardDetail() {
+	public String boardDetail(String bdIdx) {
 		return "board/boardView";
 	}
 	
@@ -51,8 +52,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("list")
-	public String boardList(@RequestParam(required = false, defaultValue = "1")
-							int page, Model model) {
+	public String boardList(@RequestParam(defaultValue = "1") int page 
+							,Model model) {
 		model.addAllAttributes(boardService.selectBoardList(page));
 		return "board/boardList";
 	}
