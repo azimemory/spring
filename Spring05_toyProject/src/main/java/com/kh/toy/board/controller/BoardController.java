@@ -1,34 +1,23 @@
 package com.kh.toy.board.controller;
 
-import java.nio.charset.Charset;
 import java.util.List;
-import javax.servlet.http.HttpSession;
-
+import java.util.Map;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.toy.board.model.service.BoardService;
-import com.kh.toy.board.model.service.impl.BoardServiceImpl;
 import com.kh.toy.board.model.vo.Board;
 import com.kh.toy.member.model.vo.Member;
 
-import common.code.Code;
 import common.util.file.FileVo;
 
 @Controller
@@ -42,7 +31,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("detail")
-	public String boardDetail(String bdIdx) {
+	public String boardDetail(String bdIdx, Model model) {
+		Map<String, Object> commandMap = boardService.selectBoardDetail(bdIdx);
+		model.addAllAttributes(commandMap);
 		return "board/boardView";
 	}
 	
@@ -72,7 +63,7 @@ public class BoardController {
 		}else {
 			board.setUserId("test"); //로그인한 회원이 아니라면 비회원으로 등록
 		}
-		
+		System.out.println(board);
 		boardService.insertBoard(board, files);
 		return "redirect:/index";
 	}
@@ -80,19 +71,13 @@ public class BoardController {
 	//파일 다운로드를 진행하기 위해 response의 contentsType을 지정해야한다.
 	@GetMapping("download")
 	public ResponseEntity downloadFile(FileVo file) {
-		  HttpHeaders headers = new HttpHeaders();
-		  headers.setContentDisposition(
-				  ContentDisposition
-				  	.builder("attachment")
-				  	.filename(file.getOriginFileName(), Charset.forName("UTF-8"))
-				  	.build());
-		  headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-		  
 		  FileSystemResource resource 
 			= new FileSystemResource(file.getFullPath() + file.getRenameFileName());
-		
-		  ResponseEntity response 
-		  	= new ResponseEntity(resource,headers,HttpStatus.OK);
+		  ResponseEntity response = ResponseEntity
+				  .ok()
+				  .contentType(MediaType.APPLICATION_OCTET_STREAM)
+				  .header("content-disposition", "attachment; filename="+file.getRenameFileName())
+				  .body(resource);
 		  return response;
 	}
 }

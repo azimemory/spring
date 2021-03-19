@@ -10,7 +10,7 @@
 		values(
 			SC_FILE_IDX.nextval, 
 			<choose>
-				<when test="typeIdx != 0">
+				<when test="typeIdx != null">
 					#{typeIdx},
 				</when>
 				<otherwise>

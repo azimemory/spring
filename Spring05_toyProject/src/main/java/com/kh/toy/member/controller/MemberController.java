@@ -66,8 +66,8 @@ public class MemberController {
 		this.memberValidator = memberValidator;
 	}
 
-	//InitBinder : 특정 컨트롤러에서 validator를 사용하고 싶을 경우 지정	
-	// 	value : value값으로 지정된 변수명을 가진 파라미터만 검증
+	//InitBinder : WebDataBinder를 초기화하는 메서드를 식별하는 주석
+	//		value : webDataBinder가 적용될 파라미터 명 또는 Model의 attribute 이름
     @InitBinder("member")
     public void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(memberValidator);

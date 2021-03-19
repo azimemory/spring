@@ -54,14 +54,6 @@ public class AuthInterceptor implements HandlerInterceptor{
 					}	
 					break;
 				}
-			case "board" :
-				switch(uriArr[2]) {
-				case "form" :
-					if(session.getAttribute("user") == null) {
-						throw new ToAlertException(ErrorCode.AUTH01);
-					}
-					break;
-				}
 			}
 		}
 		return true;
