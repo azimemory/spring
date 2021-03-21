@@ -21,7 +21,7 @@
 					style="width:99%; height:300px;" required="required"></textarea>
 				</div>
 				<div class="btn_section">
-					<button style="background-color:red; color:white">전송</button>
+					<button style="background-color:red; color:white; width:100%">전송</button>
 				</div>
 			</div>
 		</form>

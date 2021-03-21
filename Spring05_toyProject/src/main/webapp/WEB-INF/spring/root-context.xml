@@ -12,7 +12,7 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> 
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-		<property name="username" value="jpa"/>
+		<property name="username" value="bm"/>
 		<property name="password" value="1234"/>
 		<property name="maxWait" value="10000"/>
 	</bean>
@@ -41,5 +41,13 @@
 				<prop key="mail.debug">true</prop>
 			</props>
 		</property>
+	</bean>
+	
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 업로드 가능한 최대 크기 -->
+		<property name="maxUploadSize" value="1000000000"/>
+		<property name="maxInMemorySize" value="1000000000"/>
+		<property name="defaultEncoding" value="utf-8"/>
 	</bean>
 </beans>

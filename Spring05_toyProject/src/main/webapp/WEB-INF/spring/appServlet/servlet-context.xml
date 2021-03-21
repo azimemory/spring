@@ -3,8 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
@@ -42,6 +46,40 @@
 			<beans:bean class="common.interceptor.AuthInterceptor"></beans:bean>
 		</interceptor>
 	</interceptors>
+	
+	<aop:aspectj-autoproxy/>
+	
+	<!--
+		proxy-target-class="true"
+		interface 대신 상속을 활용해서 프록시 객체를 생성한다.
+		단점 : 상속을 활용해기 때문에, 타깃클래스(부모클래스)의
+		기본 생성자가 프록시 객체 생성때 마다 반복적으로 호출되게 된다.
+	  -->
+	<tx:annotation-driven proxy-target-class="false"
+		transaction-manager="transactionManager"/>
+	<beans:bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- root-context.xml에 등록한 dataSource bean을 참조 -->
+		<beans:property name="dataSource" ref="dataSource"></beans:property>
+	</beans:bean>
+	
+	<!-- aspectJ Weaver dependency 추가 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 이름이 select로 시작하는 모든 메서드 -->
+			<!-- Custom Exception이 발생했을 때 트랜잭션 관리를
+				스프링으로 하기 위해서는, 해당 Exception이  Exception을 상속받고 있더라도 정확하게 rollback-for 속성에 해당 Exception을 등록을 해줘야한다. -->
+			<tx:method name="select*" read-only="false"/>	
+			<tx:method name="update*" propagation="REQUIRED" rollback-for="Exception, common.exception.CustomException"/>	
+			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception, common.exception.CustomException"/>
+			<tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception, common.exception.CustomException"/>
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<!-- 접근제한자(생략가능) 반환형(필수) 패키지(생략가능) 클래스명(생략가능) 메서드(필수)(매개변수(필수)) -->
+		<aop:pointcut expression="execution(* com.kh.toy..*.*ServiceImpl.*(..))" id="requiredTx"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="requiredTx"/>
+	</aop:config>
 	
 	<context:component-scan base-package="com.kh.toy, common" />
 </beans:beans>

@@ -50,12 +50,7 @@
 		where
 			user_id = #{userId}
 	</update>
-	<!-- 아이디 중복 여부 확인을 위한 쿼리 -->
-	<select id="selectMemberById" resultType="MEMBER">
-		select *
-		from member 
-		where user_id = #{userId}
-	</select>
+
 	
 	
 	

@@ -2,7 +2,6 @@ package common.interceptor;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import common.code.ErrorCode;
 import common.exception.ToAlertException;
 
@@ -42,7 +41,7 @@ public class AuthInterceptor implements HandlerInterceptor{
 			case "member" :
 				switch(uriArr[2]) {
 				case "mypage" :
-					if(session.getAttribute("user") == null) {
+					if(session.getAttribute("userInfo") == null) {
 						throw new ToAlertException(ErrorCode.AUTH01);
 					}
 					break;
@@ -50,17 +49,9 @@ public class AuthInterceptor implements HandlerInterceptor{
 					//joinimpl 뒤의 패스 변수가 sessionId와 일치하지 않으면 예외처리
 					//session에 persistUser 속성값이 존재하지 않으면 예외처리
 					if(!uriArr[3].equals(session.getId()) 
-							|| session.getAttribute("persistUser") == null) {
+							|| session.getAttribute("persistInfo") == null) {
 						throw new ToAlertException(ErrorCode.AUTH02);
 					}	
-					break;
-				}
-			case "board" :
-				switch(uriArr[2]) {
-				case "form" :
-					if(session.getAttribute("user") == null) {
-						throw new ToAlertException(ErrorCode.AUTH01);
-					}
 					break;
 				}
 			}

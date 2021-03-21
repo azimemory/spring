@@ -1,15 +1,11 @@
 package common.mail;
 
 import java.util.Date;
-import java.util.Properties;
 
-import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -34,23 +30,22 @@ public class MailSender {
 	
 	//해당 메서드를 새로운 thread를 만들어 비동기로 실행. public 메서드만 가능하다. 
 	//반환형이 있다면 Future타입의 객체를 반환시켜 반환값이 있는 비동기 메서드로도 만들 수 있다.
-	@Async 
+	@Async
 	public void sendEmail(String to, String subject, String htmlText) {
 		MimeMessage msg = mailSender.createMimeMessage();
-		 try {
-			 msg.setFrom(new InternetAddress(Code.EMAIL.desc));
-			 msg.setRecipients(Message.RecipientType.TO, to);
-			 msg.setSubject(subject);
-			 msg.setSentDate(new Date());
-			 msg.setContent(getMultipart(htmlText)); //message의 바디에 추가
-	        
-	         mailSender.send(msg);
-		}catch(MessagingException mex) {
-	        throw new ToAlertException(ErrorCode.MAIL01,mex);
-	    }
+		try {
+			msg.setFrom(new InternetAddress(Code.EMAIL.desc));
+			msg.setRecipients(Message.RecipientType.TO, to);
+			msg.setSubject(subject);
+			msg.setSentDate(new Date());
+			msg.setContent(getMultipart(htmlText)); //message의 바디에 추가
+	        mailSender.send(msg);
+		} catch(Exception e) {
+			throw new ToAlertException(ErrorCode.MAIL01,e);
+		}
 	}
 	
-	private Multipart getMultipart(String htmlText) throws MessagingException {
+	private Multipart getMultipart(String htmlText) throws MessagingException{
         Multipart mp = new MimeMultipart();
         MimeBodyPart htmlPart = new MimeBodyPart();
         htmlPart.setContent(htmlText, "text/html; charset=UTF-8");

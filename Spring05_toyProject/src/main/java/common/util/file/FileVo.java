@@ -5,8 +5,7 @@ import common.code.Code;
 public class FileVo {
 
 	int fIdx;
-	int typeIdx;
-	String type;
+	String typeIdx;
 	String originFileName;
 	String renameFileName;
 	String savePath;
@@ -23,14 +22,6 @@ public class FileVo {
 	
 	public void setfIdx(String fIdx) {
 		this.fIdx = Integer.parseInt(fIdx);
-	}
-	
-	public int getTypeIdx() {
-		return typeIdx;
-	}
-	
-	public void setTypeIdx(int typeIdx) {
-		this.typeIdx = typeIdx;
 	}
 	
 	public String getOriginFileName() {
@@ -61,14 +52,6 @@ public class FileVo {
 		return Code.UPLOAD.desc+savePath;
 	}
 	
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public String getIsDel() {
 		return isDel;
 	}
@@ -76,5 +59,15 @@ public class FileVo {
 	public void setIsDel(String isDel) {
 		this.isDel = isDel;
 	}
+
+	public String getTypeIdx() {
+		return typeIdx;
+	}
+
+	public void setTypeIdx(String typeIdx) {
+		this.typeIdx = typeIdx;
+	}
+	
+	
 
 }

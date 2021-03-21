@@ -4,20 +4,19 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.toy.board.model.repository.BoardRepository">
 	<insert id="insertFile">
-		insert into file
-			(f_idx, type_idx, origin_file_name,
+		insert into file_info
+			(fl_idx, type_idx, origin_file_name,
 			 rename_file_name, save_path)
 		values(
 			SC_FILE_IDX.nextval, 
 			<choose>
-				<when test="typeIdx != 0">
+				<when test="typeIdx != null">
 					#{typeIdx},
 				</when>
 				<otherwise>
 					SC_BOARD_IDX.currval,
 				</otherwise>
 			</choose>
-			#{type},
 			#{originFileName},
 			#{renameFileName},
 			#{savePath}

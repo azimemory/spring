@@ -1,17 +1,20 @@
 package common.exception.handler;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import common.exception.CustomException;
 
-//컨트롤러를 보조하는 클래스
-@ControllerAdvice(basePackages = {"com.kh.toy, common"})
+//컨트롤러의 공통관심사를 작성하는 클래스
+@Controller
+@ControllerAdvice(basePackages = {"com.kh.toy"})
 public class ExceptionController {
 	
-	@ExceptionHandler
-	public void serviceException(CustomException e) {
-		
+	@ExceptionHandler(CustomException.class)
+	public String serviceException(CustomException e, Model model) {
+		model.addAttribute("msg", e.error.errMsg);
+		model.addAttribute("url", e.error.url);
+		return "common/result";
 	}
-
 }
