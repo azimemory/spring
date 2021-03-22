@@ -3,6 +3,7 @@ package com.kh.toy.board.controller;
 import java.nio.charset.Charset;
 import java.util.List;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.toy.board.model.service.BoardService;
 import com.kh.toy.board.model.vo.Board;
+import com.kh.toy.common.util.file.FileInfo;
 import com.kh.toy.member.model.vo.Member;
-import common.util.file.FileVo;
 
 @Controller
 @RequestMapping("board")
@@ -44,7 +45,8 @@ public class BoardController {
 	@GetMapping("list")
 	public String boardList(@RequestParam(defaultValue = "1") int page 
 							,Model model) {
-		model.addAllAttributes(boardService.selectBoardList(page));
+		
+		model.addAllAttributes(boardService.selectBoardList(PageRequest.of(page, 5)));
 		return "board/boardList";
 	}
 	
@@ -69,8 +71,7 @@ public class BoardController {
 	
 	//파일 다운로드를 진행하기 위해 response의 contentsType을 지정해야한다.
 	@GetMapping("download")
-	public ResponseEntity<FileSystemResource> downloadFile(FileVo file) {
-		
+	public ResponseEntity<FileSystemResource> downloadFile(FileInfo file) {
 		 HttpHeaders headers  = new HttpHeaders();
 		 headers.setContentDisposition(ContentDisposition
 				 .builder("attachment")
