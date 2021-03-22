@@ -1,9 +1,5 @@
 package com.kh.toy.member.model.service.impl;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +16,8 @@ import com.kh.toy.member.model.service.MemberService;
 import com.kh.toy.member.model.vo.Member;
 
 import common.code.Code;
+import common.code.ErrorCode;
+import common.exception.ToAlertException;
 import common.mail.MailSender;
 
 @Service
@@ -68,6 +66,7 @@ public class MemberServiceImpl implements MemberService{
 		HttpEntity entity = new HttpEntity(body,header);
 		ResponseEntity<String> re = rt.exchange(Code.DOMAIN+"/mail", HttpMethod.POST,entity, String.class);
 		mail.sendEmail(member.getEmail(), "회원가입을 축하합니다.", re.getBody());
+		
 	}
 	
 	public void insertMember(Member member) {

@@ -78,7 +78,7 @@ public class BoardTest {
 	
 	@Test
 	public void downloadFile() throws Exception{
-		String bdIdx = "100045";
+		String bdIdx = "100027";
 		List<FileVo> fileList = repo.selectFileWithBdIdx(bdIdx);
 		
 		 this.mockMvc.perform(
@@ -90,10 +90,4 @@ public class BoardTest {
 			 )
 			 .andDo(print());
 	}
-	
-	
-	
-	
-	
-	
 }

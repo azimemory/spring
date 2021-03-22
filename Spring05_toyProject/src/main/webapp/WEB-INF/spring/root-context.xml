@@ -43,12 +43,11 @@
 		</property>
 	</bean>
 	
-	<!-- 스프링에서 multipart 데이터 처리를 담당하는 클래스  -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- 업로드 가능한 최대 크기 -->
-		<property name="maxUploadSize" value="100000000"/>
-		<property name="maxInMemorySize" value="100000000"/>
+		<property name="maxUploadSize" value="1000000000"/>
+		<property name="maxInMemorySize" value="1000000000"/>
 		<property name="defaultEncoding" value="utf-8"/>
 	</bean>
 </beans>

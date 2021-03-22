@@ -23,6 +23,7 @@ import com.kh.toy.member.model.vo.Member;
 import com.kh.toy.member.validator.MemberValidator;
 
 import common.code.ErrorCode;
+import common.exception.CustomException;
 import common.exception.ToAlertException;
 
 //@Controller : 
@@ -92,6 +93,7 @@ public class MemberController {
 					, Errors error //반드시 Errors 변수를 @Valid 변수 바로 뒤에 작성
 					, HttpSession session
 					, Model model) {
+		
 		if(error.hasErrors()) {
 			return "member/join";
 		}
@@ -103,6 +105,7 @@ public class MemberController {
 		
 		model.addAttribute("msg", "이메일이 발송되었습니다.");
 		model.addAttribute("url","/index");
+		
 		return "common/result";
 	}
 	
@@ -114,7 +117,6 @@ public class MemberController {
 									  , HttpSession session
 			,@SessionAttribute("persistInfo")Member persistInfo 
 									  , Model model) {
-		
 		if(!session.getId().equals(sessionId)) {
 			throw new ToAlertException(ErrorCode.AUTH02);
 		}

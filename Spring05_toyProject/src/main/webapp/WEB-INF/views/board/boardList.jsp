@@ -25,7 +25,7 @@
 <body>
 	<div class="content">
 	    <h2 class="tit">* 게시판</h2>
-	    <a href="${context}/board/form">게시글 쓰기</a>
+	    <a href="<%= request.getContextPath() %>/board/form">게시글 쓰기</a>
   	    <table style="text-align: center" border="1">
 	       <thead>
 	           <tr>
