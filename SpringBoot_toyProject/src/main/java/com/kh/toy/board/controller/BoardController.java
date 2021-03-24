@@ -34,12 +34,12 @@ public class BoardController {
 	@GetMapping("detail")
 	public String boardDetail(String bdIdx, Model model) {
 		model.addAllAttributes(boardService.selectBoardDetail(bdIdx));
-		return "board/boardView";
+		return "board/board_view";
 	}
 	
 	@GetMapping("form")
 	public String gotoForm() {
-		return "board/boardForm";
+		return "board/board_form";
 	}
 	
 	@GetMapping("list")
@@ -47,7 +47,7 @@ public class BoardController {
 							,Model model) {
 		
 		model.addAllAttributes(boardService.selectBoardList(PageRequest.of(page, 5)));
-		return "board/boardList";
+		return "board/board_list";
 	}
 	
 	//MultiPart 요청이 오면, File은 MultipartFile 객체로 게시글은 Board 객체로 바인드 해준다.
@@ -57,7 +57,6 @@ public class BoardController {
 			, @SessionAttribute(name="userInfo",required = false) 
 			  Member member
 			, Board board) {
-		
 		//로그인한 회원이라면
 		if(member != null) {
 			board.setUserId(member.getUserId()); //게시글 작성자에 해당 회원의 아이디

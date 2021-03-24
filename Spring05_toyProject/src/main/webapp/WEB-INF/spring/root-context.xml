@@ -5,16 +5,14 @@
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 	http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
-	
 	<!-- 
 		1. commons dbcp 라이브러리 추가
 		2. SqlSessionFactoryBean의 setDataSource 메서드에 넣어주기 위한 dataSource객체 생성 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> 
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-		<property name="username" value="jpa"/>
-		<property name="password" value="1234"/>
-		<property name="maxWait" value="10000"/>
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="url" value="jdbc:oracle:thin:@pclassdb_medium?TNS_ADMIN=C:/CODE/afternoon/E_SERVLET/Wallet_pclassDB"/>
+		<property name="username" value="admin"/>
+		<property name="password" value="1256812gk!A!"/>
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 	</bean>
 	
 	<!-- sqlSessionFactoryBean을 등록  -->

@@ -32,7 +32,7 @@ public class MemberValidator implements Validator{
 		Pattern pattern = Pattern
 				.compile("^(?!.*[ㄱ-힣])(?=.*\\W)(?=.*\\d)(?=.*[a-zA-Z])(?=.{8,})");
 		
-		if(repo.findById(member.getUserId()).get() != null) {
+		if(repo.existsById(member.getUserId())) {
 			errors.rejectValue("userId","error.userId","이미 존재하는 아이디 입니다.");
 		}
 		

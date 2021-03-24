@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="fragments :: head">
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/board.css" />
-<link rel="stylesheet" href="/resources/css/reset.css"/>
+<link rel="stylesheet" href="/css/board.css" />
+<link rel="stylesheet" href="/css/reset.css"/>
 </head>
 <body>
 <div class="content">
 	<h2 class="tit">*게시판</h2>
 	<div class="desc_board">
-		<form action="${context}/board/upload" method="post" enctype="multipart/form-data">
+		<form th:action="@{/board/upload}" method="post" enctype="multipart/form-data">
 			<div>
 				<div class="tit_board">
 					제목 : <input type="text" name="title" required="required"/>

@@ -32,7 +32,7 @@ public class BoardServiceImpl implements BoardService{
 		if(!(files.size() == 1 && files.get(0).getOriginalFilename().equals(""))) {
 			//파일업로드를 위해 FileUtil.fileUpload() 호출
 			List<FileInfo> fileInfos = new FileUtil().fileUpload(files);
-			board.setFiles(fileInfos);
+			board.setFileInfo(fileInfos);
 			repo.save(board);
 		}
 	}
@@ -43,12 +43,21 @@ public class BoardServiceImpl implements BoardService{
 		
 		 //현재 페이지에 필요한 게시물 목록
 		 Page<Board> blist = repo.findAll(page);
+		 
 		 if(blist == null) {
 			 throw new CustomException(ErrorCode.SB01);
 		 }
 		 
+		 Paging paging = Paging.builder()
+				 .blockCnt(5)
+				 .cntPerPage(page.getPageSize())
+				 .currentPage(page.getPageNumber())
+				 .total((int)repo.count())
+				 .type("board")
+				 .build();
+		
 		 commandMap.put("blist", blist);
-		 commandMap.put("paging", page);
+		 commandMap.put("paging", paging);
 		 return commandMap;
 	}
 

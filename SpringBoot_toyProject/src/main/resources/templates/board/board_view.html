@@ -1,41 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments :: head"></head>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="/resources/css/board.css" />
-<link rel="stylesheet" href="/resources/css/reset.css"/>
+<link rel="stylesheet" href="/css/board.css" />
+<link rel="stylesheet" href="/css/reset.css"/>
 </head>
 <body>
 <div class="content">   
     <h2 class="tit">*게시판</h2>
     <div class="desc_board">
       <div class="info" >
-          <span>번호 : ${board.bdIdx}</span>
-          <span>제목 : ${board.title}</span>
-          <span>등록일 : ${board.regDate}</span>
-          <span>작성자 : ${board.userId}</span>
+          <span>번호 : [[${board.bdIdx}]]</span>
+          <span>제목 : [[${board.title}]] </span>
+          <span th:text="|등록일 : ${board.regDate}|">등록일 :2012-01-30</span>
+          <span th:text="|작성자 : ${board.userId}|">작성자 : guest</span>
       </div>
       <div class="info file_info">
-      	<c:forEach var="file" items="${flist}">
-      	 	<button type="button" class="btn_down-file"  
-      	 			onclick="downloadFile('${file.originFileName}','${file.renameFileName}','${file.savePath}')">  
-      	 		${file.originFileName}        
-        	 </button>
-      	</c:forEach>
+     	 <button th:each="file : ${files}" type="button" class="btn_down-file"  
+     	 		th:onclick="|downloadFile('${file.originFileName}','${file.renameFileName}','${file.savePath}')|">  
+     	 		${file.originFileName}        
+       	 </button>
       </div>
-      <div class="article_content">
-          ${board.content}
-      </div>
+      <div class="article_content" th:text="${board.content}"></div>     
       <div class="btn_section btn_list">
-          <button onclick="submitData('list')"><span>목록</span></button>
-      </div>
-      
-       <div class="btn_section btn_delete">
-        <button ><span>삭제</span></button>
-      </div>
-      <div class="btn_section btn_modify">
-        <button><span>수정</span></button>
+          <button th:onclick="submitData('list')"><span>목록</span></button>
+      	  <button ><span>삭제</span></button>
+      	  <button><span>수정</span></button>
       </div>
    </div>
 </div>
@@ -49,7 +39,7 @@
 			  		'renameFileName':rfname,
 			  		'savePath':savePath};
 	  
-      location.href = '${context}' + "/board/download?" + urlEncodeForm(params);
+      location.href = "@{/board/download?}" + urlEncodeForm(params);
    }
 
 </script>

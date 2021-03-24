@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -20,6 +21,7 @@ import com.kh.toy.common.util.file.FileInfo;
 public class Board {
 	
 	@Id
+	@GeneratedValue
 	private String bdIdx;
 	private String userId;
 	private Date regDate;
@@ -28,7 +30,7 @@ public class Board {
 	private int isDel;
 	
 	@OneToMany
-	private List<FileInfo> files;
+	private List<FileInfo> fileInfo;
 	
 	public String getBdIdx() {
 		return bdIdx;
@@ -77,13 +79,13 @@ public class Board {
 	public void setIsDel(int isDel) {
 		this.isDel = isDel;
 	}
-	
-	public List<FileInfo> getFiles() {
-		return files;
+
+	public List<FileInfo> getFileInfo() {
+		return fileInfo;
 	}
 
-	public void setFiles(List<FileInfo> files) {
-		this.files = files;
+	public void setFileInfo(List<FileInfo> fileInfo) {
+		this.fileInfo = fileInfo;
 	}
 
 	@Override

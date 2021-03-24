@@ -7,7 +7,7 @@ import com.kh.toy.member.model.vo.Member;
 public interface MemberService {
 	
 	 Member authenticateUser(Member member);
-	 Member selectMemberById(String userId);
+	 boolean selectMemberById(String userId);
 	 void authenticateEmail(Member member, String sessionId);
 	 void insertMember(Member member);
 	 void updateMember(Member member);

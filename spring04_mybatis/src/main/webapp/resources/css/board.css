@@ -1,0 +1,97 @@
+@charset "UTF-8";
+/* boardList  */
+.content{
+	width:80%;
+	margin:10% 0 10% 0;
+	align-self: center;
+}
+
+.tit{
+	text-align: left;
+	font-size: 1.5vw;
+}
+
+.list_board{
+	width:100%;
+}
+
+.list_board th{
+	 font-size: 1.5vw;
+	 background-color: grey;
+	 color:white;
+}
+
+.list_board td{
+	  font-size: 1.2vw;
+	  border-bottom: 1px solid lightgrey;
+}
+
+.paging{
+	height:10%;
+	font-size:1.5vw;
+}
+
+/* boardView */
+.tit_board{
+	width:100%;
+	height:8%;
+	text-align: left;
+	font-size:1.5vw;
+	padding:1% 0 1% 0;
+	border-bottom:2px solid;
+}
+
+.tit_board input[type=text]{
+	font-size:1.3vw;
+}
+
+.info{
+	width:100%;
+	height:6%;
+	float:left;
+	text-align: left;
+	border-bottom:1px solid;
+	z-index: 1;
+}
+
+.info span{
+	margin-right:3%;
+}
+
+.text{
+	border-bottom:1px solid;
+	/* 에디터 태그 좌측정렬을 위한 속성  */
+	text-align: left;
+	min-height:50vh;
+}
+
+.btn_section{
+	margin-top:1%;
+	margin-left:1%;
+	width:7%;
+	float:right;
+	background-color:red;
+}
+
+.btn_section span{
+	font-size:1.5vw;
+}
+
+.btn_delete{
+	background-color:blue;
+}
+
+.btn_modify{
+	background-color:green;
+}
+
+.wrap_board{
+	overflow:hidden;
+	width:70%;
+	left:30%;
+}
+
+.btn_down-file{
+	margin-left:1%;
+	z-index:999;
+}

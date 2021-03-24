@@ -17,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.toy.board.model.service.BoardService;
 import com.kh.toy.board.model.vo.Board;
+import com.kh.toy.common.util.file.FileVo;
 import com.kh.toy.member.model.vo.Member;
-import common.util.file.FileVo;
 
 @Controller
 @RequestMapping("board")

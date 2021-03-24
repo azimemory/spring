@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import templateMethod.library.jdbc.JDBCTemplate;
+import templateMethod.framework.jdbc.JDBCTemplate;
 
 public class MyTemplate extends JDBCTemplate{
 
@@ -15,9 +15,10 @@ public class MyTemplate extends JDBCTemplate{
 		String password = "USER11";
 		
 		Connection conn = null;
+		
 		try {
 			conn = DriverManager.getConnection(url,user,password);
-			//Transaction을 개발자가 관리하기 위해 AutoCommit을 false로 지정
+			//Transaction 관리를 개발자가 하기 위해 AutoCommit 설정 끄기
 			conn.setAutoCommit(false);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

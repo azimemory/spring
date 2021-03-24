@@ -17,14 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.kh.toy.common.code.ErrorCode;
+import com.kh.toy.common.exception.CustomException;
+import com.kh.toy.common.exception.ToAlertException;
 import com.kh.toy.member.model.service.MemberService;
 import com.kh.toy.member.model.service.impl.MemberServiceImpl;
 import com.kh.toy.member.model.vo.Member;
 import com.kh.toy.member.validator.MemberValidator;
-
-import common.code.ErrorCode;
-import common.exception.CustomException;
-import common.exception.ToAlertException;
 
 //@Controller : 
 //@RequestMapping : 해당 메서드와 매핑시킬 요청 url을 지정, http method 상관없음

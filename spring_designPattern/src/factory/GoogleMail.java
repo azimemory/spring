@@ -1,11 +1,12 @@
 package factory;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class GoogleMail extends SMTPConnector{
 
-	public GoogleMail(String url, String id, String password, Date currnetTime) {
-		super(url, id, password, currnetTime);
+	public GoogleMail(String url, String id, String password, Date connectTime) {
+		super(url, id, password, connectTime);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-    import="common.code.Code"
+    import="com.kh.toy.common.code.Code"
     %>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <body>

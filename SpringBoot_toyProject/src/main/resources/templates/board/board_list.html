@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments :: head"></head>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 <style type="text/css">
 	.content{
 		width:80vw;
@@ -25,7 +24,7 @@
 <body>
 	<div class="content">
 	    <h2 class="tit">* 게시판</h2>
-	    <a href="<%= request.getContextPath() %>/board/form">게시글 쓰기</a>
+	    <a th:href="@{/board/form}">게시글 쓰기</a>
   	    <table style="text-align: center" border="1">
 	       <thead>
 	           <tr>
@@ -36,27 +35,26 @@
 	           </tr>
 	       </thead>
 	       <tbody>
-	       <c:forEach items="${blist}" var="board">
-	           <tr>
-	               <td>${board.bdIdx}</td>
-	               <td><a href="${context}/board/detail.do?bdIdx=${board.bdIdx}">${board.title}</a></td>
-	               <td>${board.userId}</td>
-	               <td>${board.regDate}</td>
+	           <tr th:each="board : ${blist}">
+	               <td th:text=${board.bdIdx}></td>
+	               <td><a th:href="@{|/board/detail?bdIdx=${board.bdIdx}|}">[[${board.title}]]</a></td>
+	               <td th:text=${board.userId}></td>
+	               <td th:text=${board.regDate}></td>
 	           </tr>
-	        </c:forEach>
 	       </tbody>
 	    </table>
 	    <!-- section pagination -->
 	      <div class="paging">
-	         <a href="${context}/${paging.type}/list" class="nav first">《</a>
-	         <a href="${context}/${paging.type}/list?page=${paging.prev}">〈</i></a>
+	         <a th:href="@{|/${paging.type}/list|}" class="nav first">《</a>
+	         <a th:href="@{|/list?page=${paging.prev}|}">〈</a>
 	       
-	         <c:forEach begin="${paging.blockStart}" end="${paging.blockEnd}" var="page">
-	         	<a href="${context}/${paging.type}/list?page=${page}"><span>${page}</span></a>
-	         </c:forEach> 
+         	 <a th:each="page : ${#numbers.sequence(paging.blockStart,paging.blockEnd)}" 
+         	 	th:href="@{|/${paging.type}/list?page=${page}|}">
+         	 	<span th:text="${page}"></span>
+         	 </a>
 	        
-	         <a href="${context}/${paging.type}/list?page=${paging.next}">〉</a>
-	 	   	 <a href="${context}/${paging.type}/list?page=${paging.lastPage}">》</a>
+	         <a th:href="@{|/${paging.type}/list?page=${paging.next}|}">〉</a>
+	 	   	 <a th:href="@{|/${paging.type}/list?page=${paging.lastPage}|}">》</a>
 	   	  </div>
 	   	  <!-- // section pagination -->
 	</div>

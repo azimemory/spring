@@ -47,8 +47,8 @@ public class MemberServiceImpl implements MemberService{
 		return info;
 	}
 	
-	public Member selectMemberById(String userId){	
-		return repo.findById(userId).get();
+	public boolean selectMemberById(String userId){	
+		return repo.existsById(userId);
 	}
 	
 	public void authenticateEmail(Member member, String sessionId) {
@@ -75,13 +75,11 @@ public class MemberServiceImpl implements MemberService{
 	
 	public void updateMember(Member member) {
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
-		repo.save(member);
 	}
 
 	@Override
 	public void updateMemberToLeave(String userId) {
 		Member member  = repo.findById(userId).get();
 		member.setIsLeave(1);
-		repo.save(member);
 	}
 }

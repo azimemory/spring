@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/include/head.jsp" %>
-<link rel="stylesheet" href="/resources/css/board.css" />
+<link rel="stylesheet" href="${context}/resources/css/board.css" />
 <link rel="stylesheet" href="/resources/css/reset.css"/>
 <body>
 <div class="content">   
@@ -14,7 +14,7 @@
           <span>작성자 : ${board.userId}</span>
       </div>
       <div class="info file_info">
-      	<c:forEach var="file" items="${flist}">
+      	<c:forEach var="file" items="${files}">
       	 	<button type="button" class="btn_down-file"  
       	 			onclick="downloadFile('${file.originFileName}','${file.renameFileName}','${file.savePath}')">  
       	 		${file.originFileName}        
@@ -24,15 +24,10 @@
       <div class="article_content">
           ${board.content}
       </div>
-      <div class="btn_section btn_list">
+      <div class="btn_section">
           <button onclick="submitData('list')"><span>목록</span></button>
-      </div>
-      
-       <div class="btn_section btn_delete">
-        <button ><span>삭제</span></button>
-      </div>
-      <div class="btn_section btn_modify">
-        <button><span>수정</span></button>
+          <button ><span>삭제</span></button>
+          <button><span>수정</span></button>
       </div>
    </div>
 </div>

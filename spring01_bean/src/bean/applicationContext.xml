@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="Lee" class="bean.Address">
+		<constructor-arg name="name" value="이순신"/>
+		<constructor-arg name="address" value="서울시 광화문"/>
+		<constructor-arg name="phone" value="010-1532-0112"/>
+	</bean>
+	
+	<bean id="hong" class="bean.Address">
+		<property name="name" value="홍길동"/>
+		<property name="address" value="서울시 광화문"/>
+		<property name="phone" value="010-1532-0112"/>
+	</bean>
+	
+	<!-- 
+		제목 : hopeForTheFlower
+		작가 : 하명도
+		출판사 : Pclass
+		페이지수 : 1000	
+	 -->
+	 <bean id="flower" class="bean.Book">
+	 	<constructor-arg name="title" value="hopeForTheFlower"/>
+	 	<constructor-arg name="author" value="하명도"/>
+	 	<constructor-arg name="publisher" value="Pclass"/>
+	 	<constructor-arg name="page" value="1000"/>
+	 </bean>
+	 
+	 <!-- 
+		제목 : 정글고
+		작가 : 김규삼씨
+		출판사 : 네이버
+		페이지수 : 10000	
+	 -->
+	 
+	 
+
+</beans>

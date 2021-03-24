@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments :: head">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -16,20 +16,20 @@
 		<tr>
 			<td>password</td>
 			<td>  
-				<input type="text" value="${sessionScope.user.password}"/>
+				<input type="text" value="${session.userInfo.password}"/>
 			</td>		
 		</tr>
 		<tr>
 			<td>tell</td>
-			<td> <input type="text" value="${sessionScope.user.tell}"/></td>
+			<td> <input type="text" value="${session.userInfo.tell}"/></td>
 		</tr>
 		<tr>
 			<td>email</td>
-			<td><input type="text" value="${sessionScope.user.email}"/></td>
+			<td><input type="text" value="${session.userInfo.email}"/></td>
 		</tr>
 		<tr>
 			<td>등록일자</td>
-			<td>${sessionScope.user.regDate}</td>
+			<td>${session.userInfo.regDate}</td>
 		</tr>
 	</table>
 </body>

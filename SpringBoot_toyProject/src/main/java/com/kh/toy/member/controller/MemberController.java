@@ -22,8 +22,6 @@ import com.kh.toy.common.exception.ToAlertException;
 import com.kh.toy.member.model.service.MemberService;
 import com.kh.toy.member.model.vo.Member;
 import com.kh.toy.member.validator.MemberValidator;
-
-
 //@Controller : 
 //@RequestMapping : 해당 메서드와 매핑시킬 요청 url을 지정, http method 상관없음
 //@GetMapping : 해당 메서드와 매핑시킬 요청 url을 지정, Get method만 매핑
@@ -80,7 +78,7 @@ public class MemberController {
 	@GetMapping("idcheck")
 	@ResponseBody
 	public String confirmId(String userId) {
-		if(memberService.selectMemberById(userId) != null) {
+		if(memberService.selectMemberById(userId)) {
 			return "fail";
 		}
 		return "success";

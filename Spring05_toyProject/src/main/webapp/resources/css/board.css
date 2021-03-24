@@ -33,11 +33,11 @@
 /* boardView */
 .tit_board{
 	width:100%;
+	height:8%;
+	text-align: left;
 	font-size:1.5vw;
-<<<<<<< HEAD
-=======
 	padding:1% 0 1% 0;
->>>>>>> branch 'main' of https://github.com/azimemory/spring
+	border-bottom:2px solid;
 }
 
 .tit_board input[type=text]{
@@ -46,41 +46,37 @@
 
 .info{
 	width:100%;
+	height:6%;
 	float:left;
-	padding:1vw 0 1vw 0;
 	text-align: left;
 	border-bottom:1px solid;
 	z-index: 1;
 }
 
 .info span{
-	margin:0 3vw 0 0;
+	margin-right:3%;
 }
 
-.article_content{
-	min-height: 300px;
+.text{
 	border-bottom:1px solid;
+	/* 에디터 태그 좌측정렬을 위한 속성  */
+	text-align: left;
+	min-height:50vh;
 }
 
 .btn_section{
-<<<<<<< HEAD
+	display:flex;
+	flex-direction:row;
+	justify-content:space-around;
 	margin:1% 0 0 1%;
-	width:7%;
-=======
-	margin-top:1%;
-	margin-left:1%;
-	width:100px;
->>>>>>> branch 'main' of https://github.com/azimemory/spring
+	width:30%;
 	float:right;
 }
 
-<<<<<<< HEAD
-=======
 .btn_section span{
 	font-size:1.5vw;
 }
 
->>>>>>> branch 'main' of https://github.com/azimemory/spring
 .wrap_board{
 	overflow:hidden;
 	width:70%;
@@ -88,16 +84,15 @@
 }
 
 .btn_down-file{
-	display: flex;
-	flex-direction: row;
-	justify-content:flex-start;
-	width:100%;
-	border-bottom: 1px solid;
+	margin-left:1%;
+	z-index:999;
 }
 
-.btn_down-file *{
-	margin:1%;
+.article_content{
+	min-height: 50vh;
+	border-bottom: 1px solid;	
 }
+
 
 
 

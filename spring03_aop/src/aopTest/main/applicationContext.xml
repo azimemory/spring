@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<aop:aspectj-autoproxy/>
+	<bean id="rect" class="aopTest.vo.Rectangle">
+		<constructor-arg name="name" value="네모네모"/>
+		<constructor-arg name="width" value="20"/>
+		<constructor-arg name="height" value="100"/>
+	</bean>
+	<bean id="tri" class="aopTest.vo.Triangle">
+		<constructor-arg name="name" value="세모세모"/>
+		<constructor-arg name="width" value="30"/>
+		<constructor-arg name="height" value="10"/>
+	</bean>
+	<bean id="myAspect" class="aopTest.aop.MyAspect"/>
+</beans>

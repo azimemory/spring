@@ -9,12 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.toy.board.model.repository.BoardRepository;
 import com.kh.toy.board.model.service.BoardService;
 import com.kh.toy.board.model.vo.Board;
-
-import common.code.ErrorCode;
-import common.exception.CustomException;
-import common.util.file.FileUtil;
-import common.util.file.FileVo;
-import common.util.paging.Paging;
+import com.kh.toy.common.code.ErrorCode;
+import com.kh.toy.common.exception.CustomException;
+import com.kh.toy.common.util.file.FileUtil;
+import com.kh.toy.common.util.file.FileVo;
+import com.kh.toy.common.util.paging.Paging;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -61,7 +60,6 @@ public class BoardServiceImpl implements BoardService{
 				 	.total(repo.selectContentCnt())
 				 	.type("board")
 				 	.build();
-		 System.out.println(p);
 		 //현재 페이지에 필요한 게시물 목록
 		 List<Board> blist = repo.selectBoardList(p);
 		 
@@ -79,16 +77,16 @@ public class BoardServiceImpl implements BoardService{
 		Map<String,Object> commandMap = new HashMap<String, Object>();
 		
 		Board board = repo.selectBoardDetail(bdIdx);
-		List<FileVo> flist = repo.selectFileWithBdIdx(bdIdx);
+		List<FileVo> files = repo.selectFileWithBdIdx(bdIdx);
 		
 		if(board == null) {
 			throw new CustomException(ErrorCode.SB01);
-		}else if(flist == null) {
+		}else if(files == null) {
 			throw new CustomException(ErrorCode.SF01);
 		}
 		
 		commandMap.put("board",board);
-		commandMap.put("flist",flist);
+		commandMap.put("files",files);
 		return commandMap;
 	}
 
