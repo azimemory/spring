@@ -17,10 +17,10 @@ import com.kh.toy.common.exception.CustomException;
 
 public class FileUtil {
 
-	public List<FileInfo> fileUpload(List<MultipartFile> files) {
+	public List<FileEntity> fileUpload(List<MultipartFile> files) {
 		
 		//파일과 관련된 정보를 가지고 반환될 list	
-		List<FileInfo> fileData = new ArrayList<FileInfo>();
+		List<FileEntity> fileData = new ArrayList<FileEntity>();
 		
 		for(MultipartFile mf : files) {
 			//서버에 저장할 경로
@@ -35,7 +35,7 @@ public class FileUtil {
 			map.put("renameFileName", renameFileName);
 			map.put("savePath",savePath);
 			
-			FileInfo FileInfo = new FileInfo();
+			FileEntity FileInfo = new FileEntity();
 			FileInfo.setOriginFileName(originFileName);
 			FileInfo.setRenameFileName(renameFileName);
 			FileInfo.setSavePath(savePath);
@@ -61,7 +61,7 @@ public class FileUtil {
 	     return renameFileID.toString() + originFileName.substring(originFileName.lastIndexOf("."));
 	}
 
-	public void saveFile(MultipartFile mf, FileInfo FileInfo)  {
+	public void saveFile(MultipartFile mf, FileEntity FileInfo)  {
 		//사용자가 등록한 파일을 옮겨담을 파일 객체 생성
 		//savePath : 저장할 경로 + 변경된 파일명
 		File path = new File(FileInfo.getFullPath());

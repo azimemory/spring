@@ -1,8 +1,6 @@
 package com.kh.toy.common.util.file;
 
 import java.sql.Date;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,37 +10,28 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.kh.toy.common.code.Code;
 
-@Entity
+@Entity(name = "file_info")
 @DynamicInsert
 @DynamicUpdate
-public class FileInfo {
+public class FileEntity {
 	
 	@Id
 	@GeneratedValue
-	String flIdx;
-	String typeIdx;
-	String originFileName;
-	String renameFileName;
-	String savePath;
-	String isDel;
-	Date regDAte;
-	
-	public String getFlIdx() {
+	private Long flIdx;
+	private String originFileName;
+	private String renameFileName;
+	private String savePath;
+	private String isDel;
+	Date regDate;
+
+	public Long getFlIdx() {
 		return flIdx;
 	}
-	
-	public void setFlIdx(String flIdx) {
+
+	public void setFlIdx(Long flIdx) {
 		this.flIdx = flIdx;
 	}
-	
-	public String getTypeIdx() {
-		return typeIdx;
-	}
-	
-	public void setTypeIdx(String typeIdx) {
-		this.typeIdx = typeIdx;
-	}
-	
+
 	public String getOriginFileName() {
 		return originFileName;
 	}
@@ -74,13 +63,15 @@ public class FileInfo {
 	public void setIsDel(String isDel) {
 		this.isDel = isDel;
 	}
-	public Date getRegDAte() {
-		return regDAte;
-	}
-	public void setRegDAte(Date regDAte) {
-		this.regDAte = regDAte;
-	}
 	
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
+
 	public String getFullPath() {
 		return Code.UPLOAD+savePath;
 	}

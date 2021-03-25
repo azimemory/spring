@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.toy.board.model.service.BoardService;
 import com.kh.toy.board.model.vo.Board;
-import com.kh.toy.common.util.file.FileInfo;
+import com.kh.toy.common.util.file.FileEntity;
 import com.kh.toy.member.model.vo.Member;
 
 @Controller
@@ -32,7 +32,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("detail")
-	public String boardDetail(String bdIdx, Model model) {
+	public String boardDetail(Long bdIdx, Model model) {
 		model.addAllAttributes(boardService.selectBoardDetail(bdIdx));
 		return "board/board_view";
 	}
@@ -43,7 +43,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("list")
-	public String boardList(@RequestParam(defaultValue = "1") int page 
+	public String boardList(@RequestParam(defaultValue = "0") int page 
 							,Model model) {
 		
 		model.addAllAttributes(boardService.selectBoardList(PageRequest.of(page, 5)));
@@ -57,20 +57,13 @@ public class BoardController {
 			, @SessionAttribute(name="userInfo",required = false) 
 			  Member member
 			, Board board) {
-		//로그인한 회원이라면
-		if(member != null) {
-			board.setUserId(member.getUserId()); //게시글 작성자에 해당 회원의 아이디
-		}else {
-			board.setUserId("test"); //로그인한 회원이 아니라면 비회원으로 등록
-		}
-		
 		boardService.insertBoard(board, files);
-		return "redirect:/index";
+		return "redirect:/board/list";
 	}
 	
 	//파일 다운로드를 진행하기 위해 response의 contentsType을 지정해야한다.
 	@GetMapping("download")
-	public ResponseEntity<FileSystemResource> downloadFile(FileInfo file) {
+	public ResponseEntity<FileSystemResource> downloadFile(FileEntity file) {
 		 HttpHeaders headers  = new HttpHeaders();
 		 headers.setContentDisposition(ContentDisposition
 				 .builder("attachment")

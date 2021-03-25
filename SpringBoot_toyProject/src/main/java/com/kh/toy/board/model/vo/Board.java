@@ -1,45 +1,48 @@
 package com.kh.toy.board.model.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-
-import com.kh.toy.common.util.file.FileInfo;
+import com.kh.toy.common.util.file.FileEntity;
 
 @Entity
 @DynamicInsert
 @DynamicUpdate
-public class Board {
+public class Board implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue
-	private String bdIdx;
+	private Long bdIdx;
+	@ColumnDefault("guest")
 	private String userId;
 	private Date regDate;
 	private String title;
 	private String content;
 	private int isDel;
 	
-	@OneToMany
-	private List<FileInfo> fileInfo;
-	
-	public String getBdIdx() {
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<FileEntity> fileEntities;
+
+	public Long getBdIdx() {
 		return bdIdx;
 	}
-	
-	public void setBdIdx(String bdIdx) {
+
+	public void setBdIdx(Long bdIdx) {
 		this.bdIdx = bdIdx;
 	}
-	
+
 	public String getUserId() {
 		return userId;
 	}
@@ -80,12 +83,12 @@ public class Board {
 		this.isDel = isDel;
 	}
 
-	public List<FileInfo> getFileInfo() {
-		return fileInfo;
+	public List<FileEntity> getFileEntities() {
+		return fileEntities;
 	}
 
-	public void setFileInfo(List<FileInfo> fileInfo) {
-		this.fileInfo = fileInfo;
+	public void setFileEntities(List<FileEntity> fileEntities) {
+		this.fileEntities = fileEntities;
 	}
 
 	@Override

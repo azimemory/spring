@@ -14,7 +14,7 @@ public interface BoardService {
 
 	public Map<String, Object> selectBoardList(PageRequest page);
 
-	public Map<String,Object> selectBoardDetail(String bdIdx);
+	public Map<String,Object> selectBoardDetail(Long bdIdx);
 
 	public void deleteFileByFIdx(String fIdx);
 

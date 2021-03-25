@@ -1,26 +1,40 @@
 package com.kh.toy.member.model.vo;
 
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import com.kh.toy.board.model.vo.Board;
 
 @Entity
 @DynamicInsert
 @DynamicUpdate
+@Cacheable
 public class Member {
 	@Id
 	private String userId;
 	private String password;
 	private String email;
+	@ColumnDefault(value = "'MG01'")
 	private String grade;
 	private String tell;
+	@ColumnDefault("sysdate")
 	private Date regDate;
+	@ColumnDefault("sysdate")
 	private Date rentableDate;
 	private int isLeave;
+	@OneToMany
+	@JoinColumn(name = "userId")
+	private List<Board> boards;
 	
 	public Member() {
 		

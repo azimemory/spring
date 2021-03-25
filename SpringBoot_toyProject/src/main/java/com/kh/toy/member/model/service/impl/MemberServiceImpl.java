@@ -56,7 +56,6 @@ public class MemberServiceImpl implements MemberService{
 		//Application/x-www-form-urlencode 형식으로 보낼 때 파라미터는 MultiValueMap<String, String>에 담는다.
 		HttpHeaders header = new HttpHeaders();
 		header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();		
 		body.add("mail-template","temp_join");
 		body.add("userId",member.getUserId());

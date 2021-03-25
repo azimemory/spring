@@ -14,7 +14,7 @@ import com.kh.toy.board.model.service.BoardService;
 import com.kh.toy.board.model.vo.Board;
 import com.kh.toy.common.code.ErrorCode;
 import com.kh.toy.common.exception.CustomException;
-import com.kh.toy.common.util.file.FileInfo;
+import com.kh.toy.common.util.file.FileEntity;
 import com.kh.toy.common.util.file.FileUtil;
 import com.kh.toy.common.util.paging.Paging;
 
@@ -31,9 +31,9 @@ public class BoardServiceImpl implements BoardService{
 	public void insertBoard(Board board, List<MultipartFile> files) {
 		if(!(files.size() == 1 && files.get(0).getOriginalFilename().equals(""))) {
 			//파일업로드를 위해 FileUtil.fileUpload() 호출
-			List<FileInfo> fileInfos = new FileUtil().fileUpload(files);
-			board.setFileInfo(fileInfos);
-			repo.save(board);
+			List<FileEntity> fileEntities = new FileUtil().fileUpload(files);
+			board.setFileEntities(fileEntities);
+			board = repo.save(board);
 		}
 	}
 
@@ -56,13 +56,13 @@ public class BoardServiceImpl implements BoardService{
 				 .type("board")
 				 .build();
 		
-		 commandMap.put("blist", blist);
+		 commandMap.put("blist", blist.getContent());
 		 commandMap.put("paging", paging);
 		 return commandMap;
 	}
 
 	@Override
-	public Map<String, Object> selectBoardDetail(String bdIdx) {
+	public Map<String, Object> selectBoardDetail(Long bdIdx) {
 		Map<String,Object> commandMap = new HashMap<String, Object>();
 		
 		Board board = repo.findById(bdIdx).get();
