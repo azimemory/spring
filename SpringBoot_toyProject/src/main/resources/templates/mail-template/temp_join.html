@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments :: head"></head>
+<head>
+<th:block th:insert="fragments :: head"/>
+<link rel="stylesheet" href="/css/board.css" />
+</head>
 <body>
 
 <h1>회원가입을 완료해주세요!</h1>
-<h1>반갑습니다. [[${userId}]] 님.</h1>
+<h1 th:text="|반갑습니다. ${userId} 님|"></h1>
 <h1>아래의 링크를 클릭해 회원가입을 완료해주세요.</h1>
-
 <span style="display: none">[[${T(com.kh.toy.common.code.Code).DOMAIN.desc}]]</span>
 <a th:href="|${T(com.kh.toy.common.code.Code).DOMAIN.desc}/member/joinimpl/${sessionId}|">회원가입완료</a><br>
 

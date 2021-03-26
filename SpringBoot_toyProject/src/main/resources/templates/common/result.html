@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="fragments :: head"/>
+<link rel="stylesheet" href="/css/board.css" />
+<link rel="stylesheet" href="/css/reset.css"/>
+</head>
+<body>
+	<script inline="javascript">
+		if("[[${msg}]]"){
+			alert("[[${msg}]]");
+		}
+		
+		location.href = "[[${url}]]";
+	</script>
+</body>
+</html>

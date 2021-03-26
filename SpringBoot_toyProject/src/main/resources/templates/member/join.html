@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments :: head"></head>
 <head>
-<style type="text/css">
-		.valid_info{
-			color:red;
-			font-size: 0.5vw;
-		}
-	</style>
+	<th:block th:insert="fragments :: head"/>
+	<link rel="stylesheet" href="/css/member.css" />
 </head>
 <body>
  <h1>회원 가입 양식</h1>
@@ -32,12 +27,14 @@
            <td>휴대폰번호 : </td>
            <td>
            	  <input type="tel" name="tell" required/>
+           	  <span></span>
            </td>
         </tr>
         <tr>
            <td>email : </td>
            <td>
            	  <input type="email" name="email" required/>
+           	  <span></span>
            </td>
         </tr>
         <tr>
@@ -47,7 +44,7 @@
            </td>
        </tr>
    </table>
-   </form>
+   </form:form>
    
    <script type="text/javascript">
    let idCheckFlg = false;
@@ -95,5 +92,6 @@
    });
    
    </script>
+   
 </body>
 </html>

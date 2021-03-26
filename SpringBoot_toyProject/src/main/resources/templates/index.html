@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments :: head"></head>
+<head>
+	<th:block th:insert="fragments :: head"/>
+</head>
 <body>
-	<h1>Toy Project Index Page</h1>
 	<th:block th:if="${session.userInfo == null}">
-		<h2><a th:href="@{/member/join}">회원가입</a></h2>
-		<h2><a th:href="@{/member/login}">로그인</a></h2>
+		<h2><a href="/member/join">회원가입</a></h2>
+		<h2><a href="/member/login">로그인</a></h2>
 	</th:block>
 	<th:block th:unless="${session.userInfo == null}">
-		<h2><a th:href="@{/member/mypage}">마이페이지</a></h2>
-		<h2><a th:href="@{/member/logout}">로그아웃</a></h2>
+		<h2><a href="/member/mypage">마이페이지</a></h2>
+		<h2><a href="/member/logout">로그아웃</a></h2>
 	</th:block>
-	<h2><a href="/board/list">게시글 보기</a></h2>
+	<h2><a th:href="@{/board/list}">게시글 보기</a></h2>
 </body>
 </html>

@@ -11,10 +11,9 @@ import com.kh.toy.common.exception.CustomException;
 @Controller
 @ControllerAdvice(basePackages = {"com.kh.toy"})
 public class ExceptionController {
-	
 	@ExceptionHandler(CustomException.class)
 	public String serviceException(CustomException e, Model model) {
-		model.addAttribute("msg", e.error.errMsg);
+		model.addAttribute("msg", e.error.msg);
 		model.addAttribute("url", e.error.url);
 		return "common/result";
 	}

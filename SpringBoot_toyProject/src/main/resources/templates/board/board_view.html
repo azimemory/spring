@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments :: head"></head>
 <head>
+<th:block th:insert="fragments :: head"/>
 <link rel="stylesheet" href="/css/board.css" />
-<link rel="stylesheet" href="/css/reset.css"/>
 </head>
 <body>
 <div class="content">   
@@ -11,21 +10,25 @@
     <div class="desc_board">
       <div class="info" >
           <span>번호 : [[${board.bdIdx}]]</span>
-          <span>제목 : [[${board.title}]] </span>
-          <span th:text="|등록일 : ${board.regDate}|">등록일 :2012-01-30</span>
-          <span th:text="|작성자 : ${board.userId}|">작성자 : guest</span>
+          <span>제목 : [[${board.title}]]</span>
+          <span th:text="|등록일 : ${board.regDate}|"></span>
+          <span th:text="|작성자 : ${board.userId}|"></span>
       </div>
-      <div class="info file_info">
-     	 <button th:each="file : ${files}" type="button" class="btn_down-file"  
-     	 		th:onclick="|downloadFile('${file.originFileName}','${file.renameFileName}','${file.savePath}')|">  
-     	 		${file.originFileName}        
-       	 </button>
+     <div class="info">
+     	 <ol>
+     	 	<li th:each="file : ${board.fileList}"  th:object="${file}"
+     	 		th:onclick="downloadFile([[*{originFileName}]],[[*{renameFileName}]],[[*{savePath}]])">
+     	 		<a>[[*{originFileName}]]</a> 
+     	 	</li>
+     	 </ol>
       </div>
-      <div class="article_content" th:text="${board.content}"></div>     
-      <div class="btn_section btn_list">
-          <button th:onclick="submitData('list')"><span>목록</span></button>
-      	  <button ><span>삭제</span></button>
-      	  <button><span>수정</span></button>
+      <div class="article_content" >
+      	<pre th:text="${board.content}"></pre>
+      </div>
+      <div class="btn_section">
+          <button onclick="submitData('list')"><span>목록</span></button>
+          <button><span>삭제</span></button>
+          <button><span>수정</span></button>
       </div>
    </div>
 </div>
@@ -39,10 +42,18 @@
 			  		'renameFileName':rfname,
 			  		'savePath':savePath};
 	  
-      location.href = "@{/board/download?}" + urlEncodeForm(params);
+      location.href = "[[@{/board/download?}]]" + urlEncodeForm(params);
    }
 
 </script>
+
+
+
+
+
+
+
+
 
 
 </body>

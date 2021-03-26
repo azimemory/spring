@@ -90,7 +90,7 @@ public class Paging {
 			lastPage = (total-1)/cntPerPage + 1;
 		}
 		
-		//블럭당  끝 페이지 넘버 구하기
+		//블럭당 끝 페이지 넘버 구하기
 		private void calBlock() {
 			//현재 페이지 값보다 작은 5의 배수 중 가장 큰 값에 1을 더하면 시작블록 값 
 			blockStart = ((currentPage-1)/blockCnt) * blockCnt + 1;

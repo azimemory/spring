@@ -30,7 +30,7 @@ public class HttpUtil {
 			res = getResponse(); //응답을 반환
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			throw new ToAlertException(ErrorCode.HTTP01);
+			throw new ToAlertException(ErrorCode.HTTP_ERROR);
 		}finally {
 			conn.disconnect();
 		}
@@ -45,7 +45,7 @@ public class HttpUtil {
 			res = getResponse(); //응답을 반환
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			throw new ToAlertException(ErrorCode.HTTP01);
+			throw new ToAlertException(ErrorCode.HTTP_ERROR);
 		}finally {
 			conn.disconnect();
 		}
@@ -61,7 +61,7 @@ public class HttpUtil {
 			res = getResponse();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			throw new ToAlertException(ErrorCode.HTTP01);
+			throw new ToAlertException(ErrorCode.HTTP_ERROR);
 		}finally {
 			conn.disconnect();
 		}
@@ -144,7 +144,7 @@ public class HttpUtil {
 		}else {
 			//예외는 발생하지 않지만, status코드를 콘솔창에 남기기 위해 
 			//새로운 예외클래스를 생성
-			throw new ToAlertException(ErrorCode.HTTP01, new Exception(conn.getResponseMessage()));
+			throw new ToAlertException(ErrorCode.HTTP_ERROR, new Exception(conn.getResponseMessage()));
 		}
 		return res;
 	}

@@ -43,7 +43,7 @@ public class AuthInterceptor implements HandlerInterceptor{
 				switch(uriArr[2]) {
 				case "mypage" :
 					if(session.getAttribute("userInfo") == null) {
-						throw new ToAlertException(ErrorCode.AUTH01);
+						throw new ToAlertException(ErrorCode.UNAUTHORIZED_PAGE);
 					}
 					break;
 				case "joinimpl" :
@@ -51,20 +51,11 @@ public class AuthInterceptor implements HandlerInterceptor{
 					//session에 persistUser 속성값이 존재하지 않으면 예외처리
 					if(!uriArr[3].equals(session.getId()) 
 							|| session.getAttribute("persistInfo") == null) {
-						throw new ToAlertException(ErrorCode.AUTH02);
+						throw new ToAlertException(ErrorCode.UNAUTHORIZED_PAGE);
 					}	
 					break;
 				}
-				break;
-			case "board" :
-				switch(uriArr[2]) {
-				case "upload" :
-					if(session.getAttribute("userInfo") == null) {
-						throw new ToAlertException(ErrorCode.AUTH01);
-					}
-					break;
-				}
-				break;
+			 break;
 			}
 		}
 		return true;

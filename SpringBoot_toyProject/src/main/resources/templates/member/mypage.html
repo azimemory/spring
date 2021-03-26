@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments :: head">
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<head>
+<th:block th:insert="fragments :: head"/>
+<link rel="stylesheet" href="/css/member.css" />
 </head>
 <body>
 	<h1>MyPage</h1>
-	<table>
-		<tr>
-			<td>id</td>
-			<td>
-				<input type="text" readonly="readonly" name="userId" th:value=" ${session.userInfo.userId}"/>
-			</td>
-		</tr>
-		<tr>
-			<td>password</td>
-			<td>  
-				<input type="text" th:value="${session.userInfo.password}"/>
-			</td>		
-		</tr>
-		<tr>
-			<td>tell</td>
-			<td> <input type="text" th:value="${session.userInfo.tell}"/></td>
-		</tr>
-		<tr>
-			<td>email</td>
-			<td><input type="text" th:value="${session.userInfo.email}"/></td>
-		</tr>
-		<tr>
-			<td>등록일자</td>
-			<td th:text="${session.userInfo.regDate}"></td>
-		</tr>
-	</table>
+	<form th:action="@{/member/modify}" method="post">
+		<table>
+			<tr>
+				<td>id</td>
+				<td th:text="${session.userInfo.userId}">
+					<input type="hidden" name="userId" value="${session.userInfo.userId}"/> 
+				</td>
+			</tr>
+			<tr>
+				<td>tell</td>
+				<td><input type="text" name="tell" th:value="${session.userInfo.tell}"/></td>
+			</tr>
+			<tr>
+				<td>email</td>
+				<td><input type="text" name="email" th:value="${session.userInfo.email}"/></td>
+			</tr>
+		</table>
+		<button>수정</button>
+	</form>
+	</script>
+	
+	
+	
+	
+	
 </body>
 </html>

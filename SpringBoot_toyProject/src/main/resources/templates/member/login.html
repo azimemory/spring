@@ -1,32 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-	.valid_info{
-		display:block;
-		color:red;
-		font-size:0.5vw;
-	}
-	
-	.tit{
-		display:inline-block;
-		width:50px;
-	}
-</style>
+<th:block th:insert="fragments :: head"/>
+<link rel="stylesheet" href="/css/member.css" />
 </head>
 <body>
 	<h1>로그인</h1>
-	<hr>
-		<span class="tit">ID :</span><input type="text" name="userId" id="id"><br>
-		<span class="tit">PW :</span><input type="password" name="password" id="pw">
-		<span class="valid_info"></span>
-		<button onclick="login()">로그인</button>
-		
+	<span class="valid_info"></span><br>
+	<span class="tit">ID :</span><input type="text" name="userId" id="id"><br>
+	<span class="tit">PW :</span><input type="password" name="password" id="pw">
+	<button onclick="login()">로그인</button>
+	
 	<script type="text/javascript">
 	let login = () => {
-		
 		const url = '/member/loginimpl';
 		let params = {};
 		params.userId = id.value;
@@ -64,27 +50,6 @@
 		})
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	</script>	
-		
-		
-		
-		
-		
-		
-		
-		
 </body>
 </html>

@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments :: head">
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="/css/board.css" />
-<link rel="stylesheet" href="/css/reset.css"/>
+<head >
+	<th:block th:insert="fragments :: head"/>
+	<link rel="stylesheet" href="/css/board.css" />
 </head>
 <body>
 <div class="content">
@@ -17,9 +15,8 @@
 					<!-- multiple : 여러개 파일 선택을 허용하는 속성 -->
 					파일 : <input type="file" name="files" id="contract_file" multiple/>
 				</div>
-				<div class="text">
-					<textarea id="board-content" class="board-content" name="content" 
-					style="width:99%; height:300px;" required="required"></textarea>
+				<div class="content_board">
+					<textarea name="content" required="required"></textarea>
 				</div>
 				<div class="btn_section">
 					<button style="background-color:red; color:white; width:100%">전송</button>

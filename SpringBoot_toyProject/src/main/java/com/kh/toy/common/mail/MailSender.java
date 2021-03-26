@@ -21,7 +21,7 @@ import com.kh.toy.common.code.Code;
 import com.kh.toy.common.code.ErrorCode;
 import com.kh.toy.common.exception.ToAlertException;
 
-@Component("mailUtil")
+@Component
 @EnableAsync  //해당 클래스에서 Async 어노테이션을 사용할 것을 등록
 public class MailSender {
 	
@@ -41,7 +41,7 @@ public class MailSender {
 			msg.setContent(getMultipart(htmlText)); //message의 바디에 추가
 	        mailSender.send(msg);
 		} catch(Exception e) {
-			throw new ToAlertException(ErrorCode.MAIL01,e);
+			throw new ToAlertException(ErrorCode.MAIL_SENDING_ERROR,e);
 		}
 	}
 	

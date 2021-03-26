@@ -35,14 +35,14 @@ public class FileUtil {
 			map.put("renameFileName", renameFileName);
 			map.put("savePath",savePath);
 			
-			FileEntity FileInfo = new FileEntity();
-			FileInfo.setOriginFileName(originFileName);
-			FileInfo.setRenameFileName(renameFileName);
-			FileInfo.setSavePath(savePath);
+			FileEntity FileEntity = new FileEntity();
+			FileEntity.setOriginFileName(originFileName);
+			FileEntity.setRenameFileName(renameFileName);
+			FileEntity.setSavePath(savePath);
 			
 			//tb_file에 저장할 데이터를 list에 추가
-			fileData.add(FileInfo);
-			saveFile(mf,FileInfo);
+			fileData.add(FileEntity);
+			saveFile(mf,FileEntity);
 		}
 	
 		return fileData;	
@@ -61,23 +61,22 @@ public class FileUtil {
 	     return renameFileID.toString() + originFileName.substring(originFileName.lastIndexOf("."));
 	}
 
-	public void saveFile(MultipartFile mf, FileEntity FileInfo)  {
+	public void saveFile(MultipartFile mf, FileEntity FileEntity)  {
 		//사용자가 등록한 파일을 옮겨담을 파일 객체 생성
 		//savePath : 저장할 경로 + 변경된 파일명
-		File path = new File(FileInfo.getFullPath());
+		File path = new File(FileEntity.getFullPath());
 		if(!path.exists()) {
 			path.mkdirs();
 		}
 		
 		File tempFile 
-			= new File(FileInfo.getFullPath()+FileInfo.getRenameFileName());
+			= new File(FileEntity.getFullPath()+FileEntity.getRenameFileName());
 		try {
 			mf.transferTo(tempFile);
 		} catch (IllegalStateException | IOException e) {
-			throw new CustomException(ErrorCode.IF01);
+			throw new CustomException(ErrorCode.FILE_ACCESS_ERROR);
 		}
 	}
-	
 	
 	public void deleteFile(String path) {
 		//지정된 경로의 파일 객체를 생성

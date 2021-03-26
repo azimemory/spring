@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.toy.board.model.repository.BoardRepository">
+	<!-- 1. 게시글 등록 // 2. 게시글 수정  -->
+	<insert id="insertFile">
+	insert into tb_file
+		(f_idx, type_idx, origin_file_name, rename_file_name, save_path)
+	values(sc_file_idx.nextval,
+		<choose>
+			<when test="typeIdx != null">
+				#{typeIdx},
+			</when>
+			<otherwise>
+				'b'||sc_board_idx.currval,
+			</otherwise>
+		</choose>
+		#{originFileName},
+		#{renameFileName},
+		#{savePath})
+	</insert>	 
+
+	<select id="selectBoardList" resultType="board">
+		select bd_idx, user_id, title, reg_date
+		from(
+			select rownum rnum, b.*
+			from(
+				select bd_idx, user_id, title, reg_date
+				from tb_board
+				order by ${sort} ${direction}
+			) b
+		) where rnum between #{queryStart} and #{queryEnd}	
+	</select>
+</mapper>

@@ -7,8 +7,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.kh.toy.member.model.repository.MemberRepository;
-import com.kh.toy.member.model.vo.Member;
+import com.kh.toy.member.Member;
+import com.kh.toy.member.MemberRepository;
 
 @Component
 public class MemberValidator implements Validator{
