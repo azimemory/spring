@@ -5,12 +5,12 @@ import java.lang.reflect.Field;
 import com.kh.toy.common.code.ErrorCode;
 import com.kh.toy.common.exception.ToAlertException;
 
-public class EntityUpdateUtil<T> {
+public class EntityMerge<T> {
 	
 	private T entity;
 	private T vo;
 	
-	protected EntityUpdateUtil(EntityUpdateUtilBuilder<T> builder){
+	protected EntityMerge(EntityMergeBuilder<T> builder){
 		this.entity = builder.entity;
 		this.vo = builder.vo;
 		

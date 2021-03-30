@@ -18,7 +18,7 @@
      	 <ol>
      	 	<li th:each="file : ${board.fileList}"  th:object="${file}"
      	 		th:onclick="downloadFile([[*{originFileName}]],[[*{renameFileName}]],[[*{savePath}]])">
-     	 		<a>[[*{originFileName}]]</a> 
+     	 		<a>[[*{originFileName}]] <b>x</b></a> 
      	 	</li>
      	 </ol>
       </div>

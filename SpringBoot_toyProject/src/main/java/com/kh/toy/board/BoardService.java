@@ -53,7 +53,6 @@ private BoardRepository repo;
 
 	public Map<String, Object> selectBoardDetail(Long bdIdx) {
 		Map<String,Object> commandMap = new HashMap<String, Object>();
-		
 		Board board = repo.findById(bdIdx).get();
 		commandMap.put("board",board);
 		return commandMap;
