@@ -18,7 +18,7 @@
      	 <ol>
      	 	<li th:each="file : ${board.fileList}"  th:object="${file}"
      	 		th:onclick="downloadFile([[*{originFileName}]],[[*{renameFileName}]],[[*{savePath}]])">
-     	 		<a>[[*{originFileName}]] <b>x</b></a> 
+     	 		<a>[[*{originFileName}]]</a> 
      	 	</li>
      	 </ol>
       </div>
@@ -27,8 +27,11 @@
       </div>
       <div class="btn_section">
           <button onclick="submitData('list')"><span>목록</span></button>
-          <button><span>삭제</span></button>
-          <button><span>수정</span></button>
+          <button th:unless="${session.userInfo == null || session.userInfo.userId != board.userId}"
+          		  th:onclick="|submitData('modify?bdIdx=${board.bdIdx}')|"
+          ><span>수정</span></button>
+          <button th:unless="${session.userInfo == null || session.userInfo.userId != board.userId}"
+          		  th:onclick="|submitData('delete?bdIdx=${board.bdIdx}')|"><span>삭제</span></button>
       </div>
    </div>
 </div>

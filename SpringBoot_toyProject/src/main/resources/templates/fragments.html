@@ -12,9 +12,29 @@
 				text-decoration: none;	
 				cursor:pointer;
 			}
+			
+			.gnb_top{
+				display: flex;
+				justify-content: space-between;
+			}
 		</style>
 	</th:block>
 </head>
 <body>
+<div class="gnb_top" th:fragment="gnb_top">
+	<a href="/">toyProject</a>
+	<div>
+		<a th:if="${session.userInfo == null}">login</a>
+		<a th:if="${session.userInfo != null}">logout</a>
+	</div>
+</div>
+
+
+
+
+
+
+
+
 </body>
 </html>

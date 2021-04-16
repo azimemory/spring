@@ -115,11 +115,11 @@ public class Paging {
 		}
 		
 		private void calPrev() {
-			prev = currentPage == 1?currentPage:currentPage-1;
+			prev = currentPage == 1?1:currentPage-1;
 		}
 		
 		private void calNext() {
-			next = currentPage == lastPage?currentPage:currentPage+1;
+			next = currentPage == lastPage?lastPage:currentPage+1;
 		}
 
 		public String getType() {

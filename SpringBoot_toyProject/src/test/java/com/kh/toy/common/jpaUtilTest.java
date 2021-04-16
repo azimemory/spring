@@ -1,12 +1,9 @@
 package com.kh.toy.common;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.kh.toy.common.util.jpa.EntityMerge;
-import com.kh.toy.common.util.jpa.EntityMergeBuilder;
+import com.kh.toy.common.util.jpa.MergeEntity;
+import com.kh.toy.common.util.jpa.MergeEntityBuilder;
 import com.kh.toy.member.Member;
 
 @SpringBootTest
@@ -28,7 +25,7 @@ public class jpaUtilTest {
 			e.printStackTrace();
 		}
 		
-		EntityMerge<Member> merge = new EntityMergeBuilder<Member>()
+		MergeEntity<Member> merge = new MergeEntityBuilder<Member>()
 								.entity(entity).vo(vo).build();
 		
 		System.out.println(merge.get());

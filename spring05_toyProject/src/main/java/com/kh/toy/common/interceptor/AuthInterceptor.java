@@ -23,10 +23,10 @@ public class AuthInterceptor implements HandlerInterceptor{
 			case "member":
 				switch (uriArr[2]) {
 				case "mypage": if(session.getAttribute("userInfo") == null)
-								throw new ToAlertException(ErrorCode.AUTH01);
+								throw new ToAlertException(ErrorCode.UNAUTHORIZED_PAGE);
 					  break;
 				case "joinimpl": if(session.getAttribute("persistInfo") == null) 
-								throw new ToAlertException(ErrorCode.AUTH02);
+								throw new ToAlertException(ErrorCode.EXPIRATION_AUTH);
 					  break;
 				}
 				break;

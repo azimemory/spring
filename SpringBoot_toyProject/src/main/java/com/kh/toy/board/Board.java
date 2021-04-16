@@ -1,6 +1,5 @@
 package com.kh.toy.board;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -18,10 +17,7 @@ import com.kh.toy.common.util.file.FileEntity;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-public class Board implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
-	
+public class Board {
 	@Id
 	@GeneratedValue
 	private Long bdIdx;
@@ -96,6 +92,8 @@ public class Board implements Serializable{
 	@Override
 	public String toString() {
 		return "Board [bdIdx=" + bdIdx + ", userId=" + userId + ", regDate=" + regDate + ", title=" + title
-				+ ", content=" + content + ", isDel=" + isDel + "]";
+				+ ", content=" + content + ", isDel=" + isDel + ", fileList=" + fileList + "]";
 	}
+
+	
 }

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.kh.toy.common.code.ErrorCode;
 import com.kh.toy.common.exception.ToAlertException;
+import com.kh.toy.member.Member;
 
 //HandlerInterceptor 를 구현해 인터페이스로 해당 클래스를 활용
 public class AuthInterceptor implements HandlerInterceptor{
@@ -56,6 +57,15 @@ public class AuthInterceptor implements HandlerInterceptor{
 					break;
 				}
 			 break;
+			case "board":
+				switch (uriArr[2]) {
+				case "uriArr[2]":
+					if(session.getAttribute("userInfo") == null) {
+						throw new ToAlertException(ErrorCode.UNAUTHORIZED_PAGE);
+					}
+					
+				break;
+				}
 			}
 		}
 		return true;

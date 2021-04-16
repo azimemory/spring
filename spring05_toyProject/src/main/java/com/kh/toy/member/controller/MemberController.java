@@ -69,7 +69,7 @@ public class MemberController {
 	
 	//InitBinder : WebDataBinder를 초기화하는 메서드를 식별하는 주석
 	//		value : webDataBinder가 적용될 파라미터 명 또는 Model의 attribute 이름
-	@InitBinder
+	@InitBinder(value = "member")
 	public void initBinder(WebDataBinder webDataBinder) {
 		//WebDataBinder : 컨트로러 메서드의 파라미터에 데이터를 bind 해주는 역할 수행
 		webDataBinder.addValidators(memberValidator);
@@ -127,7 +127,7 @@ public class MemberController {
 			,Model model) {
 		
 		if(!authPath.equals(sessionPath)) {
-			throw new ToAlertException(ErrorCode.AUTH02);
+			throw new ToAlertException(ErrorCode.EXPIRATION_AUTH);
 		}
 		
 		memberService.insertMember(persistInfo);

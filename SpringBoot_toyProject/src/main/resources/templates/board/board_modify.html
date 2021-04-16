@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
+	<th:block th:insert="fragments :: head"/>
+	<link rel="stylesheet" href="/css/board.css" />
+</head>
+<body>
+<div class="content">
+	<h2 class="tit">*게시판</h2>
+	<div class="desc_board">
+		<form th:action="@{/board/modify}" method="post" enctype="multipart/form-data">
+			<div>
+				<div class="tit_board">
+					제목 : <input type="text" name="title" th:value=${board.title} readonly="readonly"/>
+					파일 : <input type="file" name="files" id="contract_file" multiple/>
+				</div>
+				<div class="info">
+		     	 <ol>
+		     	 	<li th:each="file : ${board.fileList}"  th:object="${file}"
+		     	 		th:onclick="addFileParameter([[*{flIdx}]],this)">
+		     	 		<a>[[*{originFileName}]] <b>x</b></a> 
+		     	 	</li>
+		     	 </ol>
+		        </div>
+				<div class="content_board">
+					<textarea name="content" required="required" th:text="${board.content}">
+					</textarea>
+				</div>
+				<div class="btn_section">
+					<button style="background-color:red; color:white; width:100%">전송</button>
+				</div>
+			</div>
+			<input type="hidden" name="bdIdx" th:value="${board.bdIdx}"/>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+ let addFileParameter = (flIdx,e) =>{
+	let hiddenTag = document.createElement('input');	
+	hiddenTag.type='hidden';
+	hiddenTag.name = 'delFiles';
+	hiddenTag.value= flIdx;
+	document.querySelector('form').append(hiddenTag);
+	e.style.display = 'none';
+ }
+
+
+
+
+</script>
+
+
+
+
+
+
+
+</body>
+</html>

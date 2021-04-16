@@ -57,7 +57,7 @@ public class BoardServiceImpl implements BoardService{
 			}
 			
 		} catch (IllegalStateException | IOException e) {
-			throw new ToAlertException(ErrorCode.IB01, e);
+			throw new ToAlertException(ErrorCode.DATABASE_ACCESS_ERROR, e);
 		}
 	}
 

@@ -42,7 +42,7 @@
 	         <a th:href="@{|/${paging.type}/list?page=${paging.prev}|}">〈</i></a>
 	       
          	<a th:each="block : ${#numbers.sequence(paging.blockStart,paging.blockEnd)}" 
-         		th:href="@{|/${paging.type}/list?page=${page}|}">
+         		th:href="@{|/${paging.type}/list?page=${block}|}">
          		<span th:text="${block}"></span></a>
 	        
 	         <a th:href="@{|/${paging.type}/list?page=${paging.next}|}">〉</a>

@@ -18,33 +18,33 @@ import com.kh.toy.common.exception.CustomException;
 public class FileUtil {
 
 	public List<FileEntity> fileUpload(List<MultipartFile> files) {
-		
 		//파일과 관련된 정보를 가지고 반환될 list	
 		List<FileEntity> fileData = new ArrayList<FileEntity>();
 		
-		for(MultipartFile mf : files) {
-			//서버에 저장할 경로
-			String savePath = getSavePath();
-			//사용자가 올린 파일 이름
-			String originFileName = mf.getOriginalFilename();
-			//서버에 저장될 파일 이름
-			String renameFileName = getRenameFileName(originFileName);
-			
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("originFileName", originFileName);
-			map.put("renameFileName", renameFileName);
-			map.put("savePath",savePath);
-			
-			FileEntity FileEntity = new FileEntity();
-			FileEntity.setOriginFileName(originFileName);
-			FileEntity.setRenameFileName(renameFileName);
-			FileEntity.setSavePath(savePath);
-			
-			//tb_file에 저장할 데이터를 list에 추가
-			fileData.add(FileEntity);
-			saveFile(mf,FileEntity);
+		if(files.size() >= 1 && !files.get(0).getOriginalFilename().equals("")) {
+			for(MultipartFile mf : files) {
+				//서버에 저장할 경로
+				String savePath = getSavePath();
+				//사용자가 올린 파일 이름
+				String originFileName = mf.getOriginalFilename();
+				//서버에 저장될 파일 이름
+				String renameFileName = getRenameFileName(originFileName);
+				
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("originFileName", originFileName);
+				map.put("renameFileName", renameFileName);
+				map.put("savePath",savePath);
+				
+				FileEntity FileEntity = new FileEntity();
+				FileEntity.setOriginFileName(originFileName);
+				FileEntity.setRenameFileName(renameFileName);
+				FileEntity.setSavePath(savePath);
+				
+				//tb_file에 저장할 데이터를 list에 추가
+				fileData.add(FileEntity);
+				saveFile(mf,FileEntity);
+			}
 		}
-	
 		return fileData;	
 	}
 	
@@ -80,7 +80,7 @@ public class FileUtil {
 	
 	public void deleteFile(String path) {
 		//지정된 경로의 파일 객체를 생성
-		File file = new File(Code.UPLOAD.desc + path);
+		File file = new File(path);
 		//delete() 메서드로 파일을 삭제
 		file.delete();
 	}

@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class BoardController {
 	
 	@GetMapping("detail")
 	public String boardDetail(Long bdIdx, Model model) {
-		model.addAllAttributes(boardService.selectBoardDetail(bdIdx));
+		model.addAttribute("board",boardService.selectBoardDetail(bdIdx));
 		return "board/board_view";
 	}
 	
@@ -40,10 +41,10 @@ public class BoardController {
 	}
 	
 	@GetMapping("list")
-	public String boardList(@RequestParam(defaultValue = "0") int page 
+	public String boardList(@RequestParam(defaultValue = "1") int page 
 							,Model model) {
-		
-		model.addAllAttributes(boardService.selectBoardList(PageRequest.of(page, 5)));
+		//jpa의 Page객체는 페이징이 0부터 시작... 하 리얼 개발자 새끼들...
+		model.addAllAttributes(boardService.selectBoardList(PageRequest.of(page-1, 5, Direction.DESC, "bdIdx")));
 		return "board/board_list";
 	}
 	
@@ -54,7 +55,42 @@ public class BoardController {
 			, @SessionAttribute(name="userInfo",required = false) 
 			  Member member
 			, Board board) {
+		//로그인 여부에 따른 예외처리
+		String userId = member == null?"guest":member.getUserId();
+		board.setUserId(userId);
 		boardService.insertBoard(board, files);
+		return "redirect:/board/list";
+	}
+	
+	//MultiPart 요청이 오면, File은 MultipartFile 객체로 게시글은 Board 객체로 바인드 해준다.
+	@GetMapping("modify")
+	public String modifyBoard(
+			 @SessionAttribute(name="userInfo") Member member
+			, Long bdIdx
+			, Model model) {
+		model.addAttribute("board",boardService.findBoardToModify(bdIdx, member.getUserId()));
+		return "/board/board_modify";
+	}
+	
+	@PostMapping("modify")
+	public String modifyBoardImpl(
+			  @RequestParam List<MultipartFile> files
+			, @RequestParam(required = false) List<Long> delFiles
+			, @SessionAttribute(name="userInfo") Member member
+			, Board board
+			, Model model) {
+		
+		boardService.modifyBoard(board, delFiles, files, member.getUserId());
+		return "redirect:/board/detail?bdIdx=" + board.getBdIdx();
+	}
+	
+	@GetMapping("delete")
+	public String deleteBoardImpl(
+			  @RequestParam Long bdIdx
+			, @SessionAttribute(name="userInfo") Member member
+			, Model model) {
+		
+		boardService.deleteBoard(bdIdx);
 		return "redirect:/board/list";
 	}
 	
