@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <body>
+	<%@ include file="/WEB-INF/views/include/header.jsp" %>
 	<ul>
 		<li>id : ${sessionScope.userInfo.userId}</li>
 		<li>password : ${sessionScope.userInfo.password}</li>

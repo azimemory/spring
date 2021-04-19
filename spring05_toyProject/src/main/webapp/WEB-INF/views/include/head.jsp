@@ -12,9 +12,31 @@
 <script type="text/javascript" src="/resources/js/common/urlEncoder.js"></script>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <style type="text/css">
-	a{
-		text-decoration: none;	
-		cursor:pointer;
-	}
+		a{
+			text-decoration: none;	
+			cursor:pointer;
+		}
+		
+		/* header 영역 */
+		.header-section{
+			display:flex;
+			justify-content:space-between;
+			align-items:center;
+			width:100%;
+			height:5vh;
+			background-color: white;
+		}
+		
+		.header-section>*{
+			display:flex;
+			align-items:center;
+			width:30%;
+		}
+		
+		.wrap_user{
+			width:15%;
+			justify-content: space-around;
+			font-size:1.5vw;
+		}
 </style>
 </head>

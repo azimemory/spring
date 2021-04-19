@@ -3,6 +3,7 @@
 <%@include file="/WEB-INF/views/include/head.jsp" %>
 <link rel="stylesheet" href="${context}/resources/css/board.css" />
 <body>
+<%@ include file="/WEB-INF/views/include/header.jsp" %>
 <div class="content">   
     <h2 class="tit">*게시판</h2>
     <div class="desc_board">

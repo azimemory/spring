@@ -5,6 +5,7 @@
 	<link href="/resources/css/member.css" rel="stylesheet">
 </head>
 <body>
+	<%@ include file="/WEB-INF/views/include/header.jsp" %>
 	<h1>로그인</h1>
 	<span class="valid_info"></span><br>	
 	<span class="tit">ID :</span><input type="text" name="userId" id="id"><br>

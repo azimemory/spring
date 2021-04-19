@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <body>
+ <%@ include file="/WEB-INF/views/include/header.jsp" %>
  <h1>회원 가입 양식</h1>
     <form:form modelAttribute="member"
     	action="${context}/member/mailauth" method="post" id="frm_join">

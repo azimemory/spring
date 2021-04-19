@@ -16,6 +16,7 @@
 	
 </head>
 <body>
+	<%@ include file="/WEB-INF/views/include/header.jsp" %>
 	<div class="content">
 	    <h2 class="tit">* 게시판</h2>
 	    <a href="${context}/board/form">게시글 쓰기</a>

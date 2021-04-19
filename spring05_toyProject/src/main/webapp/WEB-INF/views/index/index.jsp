@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/head.jsp" %>
 <body>
+	<%@ include file="/WEB-INF/views/include/header.jsp" %>
 	<h1>Toy Project Index Page</h1>
 	<c:choose>
 		<c:when test="${empty sessionScope.userInfo}">
