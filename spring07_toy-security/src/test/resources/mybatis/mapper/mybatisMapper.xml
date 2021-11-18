@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.kh.spring.mybatis.MybatisRepository">
+  
+  	<!-- 
+  		#{} vs ${}
+  		#{} : preparedStatement에서 쿼리 템플릿을 완성 시킨 뒤에 파라미터값을 전달 받아 쿼리를 완성
+  			  문자열 이스케이프처리가 자동으로 된다. SQL Injection 공격에 안전하다.
+  			  
+  		${} : 쿼리 템플릿이 생성되는 시점에 파라미터로 전달된 값을 사용해 쿼리 템플릿을 완성
+  	 -->
+  	<select id="selectRentAndMemberById" resultType="map">
+  		select *
+  		from member
+  		inner join rent_master using(user_id)
+  		where user_id = #{userId}
+  	</select>
+  	
+  	<resultMap type="map" id="rentData">
+	<!-- 
+		column : map에 담을 컬럼명
+		javaType : map에 담을 때 어떤 타입의 데이터로 저장할지를 결정
+		property : map에 담을 때 사용할 키값
+	 -->  
+		 <result column="user_id" javaType="string" property="userId"/>
+		 <result column="title" javaType="string" />
+		 <result column="rm_idx" javaType="string" property="rmIdx"/>
+		 <result column="rent_book_cnt" javaType="int" property="rentBookCnt"/>
+		 <result column="reg_date" javaType="date" property="regDate"/>
+		 <result column="rb_idx" javaType="string" property="rbIdx"/>
+		 <result column="bk_idx" javaType="string" property="bkIdx"/>
+  	</resultMap>
+  
+  	<select id="selectRentDataByUserId" resultMap="rentData">
+  		select 
+  		user_id, title, rm_idx, rent_book_cnt, rm.reg_date
+  		, rb_idx, bk_idx
+  		from rent_master rm
+  		inner join member using(user_id)
+  		inner join rent_book using(rm_idx)
+  		where user_id = #{userId}
+  	</select>
+  	
+  	<!-- 
+  		마이바티스의 기본 statement 객체는 PreparedStatement를 사용한다.
+  		다른 statement 를 사용해야 할 경우 statementType 속성을 사용해 변경이 가능하다.
+  		STATEMENT, PREPARED, CALLABLE
+  	 -->
+  	
+  	<insert id="procedureWithTable" statementType="CALLABLE">
+  		{call sp_rent_insert(
+  			#{userId, mode=IN}
+  			,#{title, mode=IN}
+  			,{rentBookCnt, mode=IN}
+  			,#{bkIdxs, mode=IN, jdbcType=ARRAY})}
+  	</insert>
+  
+  <!-- 
+    //1. 도서명 : 쿠키와 세션, 
+	//	 작가   : 김영아
+	//	 도서번호 : 시퀀스 사용
+	//   인 도서를 BOOK 테이블에 저장하기
+	//   메서드 이름 : test01
+   -->
+  	<insert id="test01">
+  		insert into book(bk_idx, title, author)
+  		values(sc_bk_idx.nextval,#{title},#{author})
+  	</insert>
+  	
+  	<!-- 
+  		//2. 연장횟수가 2회 이상인 모든 대출도서 정보를
+		//	 연장횟수 0회로 초기화 해주세요.
+		//  메서드 이름 : test02 -->
+  	<update id="test02">
+  		update rent_book
+  		set extension_cnt = 0
+  		where extension_cnt >= 2
+  	</update>
+  	
+  	<!-- 
+  	//3. 2021년 10월 이전 9월 이후에 가입된 회원정보를 삭제
+	//  메서드 이름 : test03
+	부등호
+	&lt; , &lte; , &gt; , &gte; -->
+  	<delete id="test03">
+  		delete member 
+  		where reg_date &lt; '2021/10/01'
+  		and reg_date > '2021/09/01'
+  	</delete>
+  	
+  	<!-- 
+  	//4. 대출 횟수가 가장 많은 3권의 도서를 조회
+	//  메서드 이름 : test04
+  	 -->
+  	<select id="test04" resultType="map">
+  		select * from
+  		(select rownum rnum, b.* 
+  			from book b
+  			order by RENT_CNT desc)
+  		where rnum &lt; 4
+  	</select>
+  	
+  	<!--
+  	  //사용자가 도서 검색필터에서 info를 선택하고 검색하면 사용자가 입력한 키워드로 info 컬럼을 검색
+      //사용자가 도서 검색필터에서 author를 선택하고 검색하면 사용자가 입력한 키워드로 author 컬럼을 검색
+      //사용자 선택 필터 : info
+      //사용자 입력 키워드 : 도시
+  	  -->
+  	<select id="dynamicQueryIf" resultType="map">
+  		select * from book where
+  		<if test="searchType == 'info'">
+  			info like '%'||#{keyword}||'%'
+  		</if>
+  		<if test="searchType == 'author'">
+  			author like '%'||#{keyword}||'%'
+  		</if>
+  	</select>
+  	
+  	<select id="dynamicQueryChoose" resultType="map">
+  		select * from book where
+  		<choose>
+  			<when test="searchType=='info'">
+  				info like '%'||#{keyword}||'%'
+  			</when>
+  			<when test="searchType == 'author'">
+  				author like '%'||#{keyword}||'%'
+  			</when>
+  			<otherwise>
+  				title like '%'||#{keyword}||'%'
+  			</otherwise>
+  		</choose>
+  	</select>
+  	
+  	<select id="dynamicQueryWhereAndForeachTag" resultType="map">
+  		select * from book
+  		<where>
+  			<foreach collection="searchTypes" item="type"> 
+  				<if test="type == 'rentable'">
+  					or book_amt > 0
+  				</if>
+  				<if test="type == 'title'">
+  					or title like '%'||#{keyword}||'%'
+  				</if>
+  				<if test="type == 'author'">
+  					or author like '%'||#{keyword}||'%'
+  				</if>
+  			</foreach>
+  		</where>
+  	</select>
+  	
+  	<select id="dynamicQueryForeachTagWithList" resultType="map">
+  		select * from member
+  		where user_id in
+  		<foreach collection="list" item="userId" open="(" close=")" separator=",">
+  			#{userId}
+  		</foreach>
+  	</select>
+  	
+  	<insert id="insertTemplate">
+  		insert into ${tableName}
+  		<!-- foreach의 collection map을 넘길 경우, index속성으로 key값을 저장  -->
+  		<if test="primaryKey != null">
+  			(${primaryKey.col}
+			<foreach collection="data" index="key" item="val" open="," close=")" separator=",">
+				${key}		
+			</foreach>  	
+	  		values(${primaryKey.data}
+	  		<foreach collection="data" index="key" item="val" open="," close=")" separator=",">
+	  			#{val}
+	  		</foreach>
+  		</if>
+  		
+  		<if test="primaryKey == null">
+  			<foreach collection="data" index="key" item="val" open="(" close=")" separator=",">
+				${key}		
+			</foreach>  
+			values
+  			<foreach collection="data" index="key" item="val" open="(" close=")" separator=",">
+	  			#{val}
+	  		</foreach>
+  		</if>
+  	</insert>
+  	
+  	<update id="dynamicQuerySetTag">
+  		update member
+  		<set>
+  			<if test="password != null">
+  				password = #{password}
+  			</if>
+  			<if test="tell != null">
+  				,tell = #{tell}
+  			</if>
+  			<if test="email != null">
+  				,email = #{email}
+  			</if>
+  		</set>
+  	</update>
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  </mapper>
