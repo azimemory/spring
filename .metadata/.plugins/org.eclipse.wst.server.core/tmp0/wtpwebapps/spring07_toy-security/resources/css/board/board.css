@@ -1,0 +1,34 @@
+@charset "UTF-8";
+.tit_board *{font-size:1.3vw; margin-right:2vw}
+.board-content{padding-top:3vh; height:50vh}
+.content_board{
+	padding-top:3vh;
+	text-align: left; /* 에디터 태그 좌측정렬을 위한 속성  */
+}
+
+.content_board *{
+	width:100%;
+	min-height:50vh;
+}
+
+/* Board Detail */
+.info{font-size:1.3vw; border-bottom:1px solid}
+.info span{padding-right: 3vw;}
+.info li{font-size:0.5vw;}
+
+.btn_section{
+	padding-top:2vh;
+	display:flex;
+	flex-direction:row;
+	justify-content:flex-end;
+	width:100%;
+}
+.btn_section > button{margin:0 1vw 0 1vw; font-size:1.5vw;}
+.wrap_board{
+	overflow:hidden;
+	width:70%;
+	left:30%;
+}
+
+.btn_down-file{margin-left:1%;	z-index:999;}
+.article_content{min-height: 50vh; border-bottom: 1px solid;}
