@@ -33,7 +33,7 @@
 		<!-- 어떤 메서드를 호출 할 때 공통관심사를 적용할 것인지
 			pointcut expression
 			* : 모든
-			.. : 0개 이상
+			.. : 0개 이상 / ~의 하위 패키지
 			execution([접근제어자] 리턴타입 [패키지.클래스].메서드(매개변수)) -->
 		<property name="expression" value="execution(* aop01.*.*(..))"></property>
 	</bean>  
